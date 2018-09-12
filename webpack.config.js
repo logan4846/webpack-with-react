@@ -1,5 +1,4 @@
 const path = require('path');
-const appDirectory = path.resolve();
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractSass = new ExtractTextPlugin({
     filename: "[name].css"
@@ -10,7 +9,7 @@ module.exports = {
     mode: 'production',
     entry: './src/index.js',
     output: {
-        path: appDirectory,
+        path: path.resolve("build"),
         filename: '[name].css',
         publicPath: "/assets/"
     },
