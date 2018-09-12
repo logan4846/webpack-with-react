@@ -4,8 +4,8 @@
   "description": "write scsss in miniprogram",
   "main": "run.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=dev node index.js",
-    "build": "cross-env NODE_ENV=pro node index.js"
+    "start": "cross-env NODE_ENV=dev node run.js",
+    "build": "cross-env NODE_ENV=pro node run.js"
   },
   "keywords": [
     "miniprogram"
