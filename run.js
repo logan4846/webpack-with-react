@@ -29,7 +29,7 @@ function build(entry) {
     console.log(chalk.white('编译中...'));
     let compiler = webpack(Object.assign(config, entry));
     if (env === 'dev') {
-        let server = new WebpackDevServer(compiler, {
+          let server = new WebpackDevServer(compiler, {
             contentBase: path.resolve('build'),
             compress: true,
             hot: true,

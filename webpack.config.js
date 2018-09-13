@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const path = require('path');
 
@@ -10,10 +11,15 @@ const extractSass = new ExtractTextPlugin({
 
 module.exports = {
     mode: 'production',
-    entry:[path.resolve("src/index.js"),path.resolve("src/scss")],
+    entry:[path.resolve("src/index.js")],
     output: {
         path: path.resolve("build"),
         filename: 'src/js/[name].js'
+    },
+    resolve: {
+        alias:{
+            scss:path.resolve("src","scss")
+        }
     },
     module: {
         rules: [
@@ -32,9 +38,6 @@ module.exports = {
                 exclude: path.resolve("node_modules"),
                 use: extractSass.extract({
                     use: [
-                        {
-                            loader: "style-loader"
-                        },
                         {
                             loader: "css-loader"
                         }, {
@@ -64,6 +67,7 @@ module.exports = {
     },
     devtool: "source-map",
     plugins: [
+        new CleanWebpackPlugin(['build']),
         extractSass,
         new HtmlWebpackPlugin({
             inject: true,//注入javascript方式 true/head/body/false
