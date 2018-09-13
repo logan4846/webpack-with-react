@@ -132,9 +132,9 @@ module.exports = {
         ...
     ]
     列表：
-    ExtractTextPlugin：提取css到独立的文件，webpack4需使用4.0及以上版本
+    ExtractTextPlugin： 提取css到独立的文件，webpack4需使用4.0及以上版本
     CommonsChunkPlugin：提取公共代码块
-
+    HtmlWebpackPlugin:  生成一个html模板
     */
     plugins: [
         extractSass

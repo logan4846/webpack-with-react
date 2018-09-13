@@ -1,5 +1,8 @@
-const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+const path = require('path');
+
 const extractSass = new ExtractTextPlugin({
     filename: "[name].css"
 });
@@ -7,36 +10,31 @@ const extractSass = new ExtractTextPlugin({
 
 module.exports = {
     mode: 'production',
-    entry: './src/index.js',
+    entry:[path.resolve("src/index.js"),path.resolve("src/scss")],
     output: {
         path: path.resolve("build"),
-        filename: '[name].css',
-        publicPath: "/assets/"
+        filename: 'src/js/[name].js'
     },
     module: {
         rules: [
             {
-                test: /\.(png|jpg|gif)$/,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            outputPath : './images/'
-                        }
+                test: /\.js$/,
+                exclude: path.resolve("node_modules"),
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ["@babel/preset-react", "@babel/preset-env"]
                     }
-                ]
+                }
             },
             {
                 test: /\.scss$/,
-                include: [
-                    path.resolve(appDirectory, "scss")
-                ],
-                exclude: [
-                    path.resolve(appDirectory, "node_modules")
-                ],
-                //{loader: "style-loader"} // 将 JS 字符串生成为 style 节点,
+                exclude: path.resolve("node_modules"),
                 use: extractSass.extract({
                     use: [
+                        {
+                            loader: "style-loader"
+                        },
                         {
                             loader: "css-loader"
                         }, {
@@ -44,6 +42,17 @@ module.exports = {
                         }
                     ]
                 })
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            outputPath: './images/'
+                        }
+                    }
+                ]
             }
         ]
     },
@@ -55,7 +64,22 @@ module.exports = {
     },
     devtool: "source-map",
     plugins: [
-        extractSass
+        extractSass,
+        new HtmlWebpackPlugin({
+            inject: true,//注入javascript方式 true/head/body/false
+            template: 'src/index.html',//模板
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,//去除标签之间的空格
+                removeRedundantAttributes: true,//移除多余属性设置 如 <input type="text" /> => <input />
+                useShortDoctype: true, //<!DOCTYPE html>处理
+                removeEmptyAttributes: true,//移除空白属性  如class=""
+                removeStyleLinkTypeAttributes: true,//移除 <link/>中的type="text/css"，其他值不动
+                minifyJS: true,
+                minifyCSS: true,
+                minifyURLs: true
+            }
+        })
     ]
 };
 
