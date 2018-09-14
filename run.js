@@ -29,19 +29,13 @@ function build(entry) {
     console.log(chalk.white('编译中...'));
     let compiler = webpack(Object.assign(config, entry));
     if (env === 'dev') {
-          let server = new WebpackDevServer(compiler, {
-            contentBase: path.resolve('build'),
-            compress: true,
-            hot: true,
-        });
-        server.listen(8080,'localhost',(err) => {
+        let server = new WebpackDevServer(compiler, config.devServer);
+        server.listen(8080, 'localhost', (err) => {
             if (err) {
                 return console.log(err);
             }
-            console.log(chalk.green('Starting the development server...'));
+            console.log('Starting server on http://localhost:8080');
             console.log();
-
-            // openBrowser(protocol + '://' + host + ':' + port + '/');
         });
     }
     else
