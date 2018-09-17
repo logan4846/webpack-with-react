@@ -112,7 +112,7 @@ module.exports =    {
       ]
     */
     /*loader列表详细说明
-    * style-loader 将 JS 字符串生成为 style 节点
+    * style-loader 将解析并将css并入页面的style标签内
     * css-loader   处理css文件，包括其中的图片url
     * scss-loader  处理scss文件
     * file-loader  处理import的文件，如图片，字体等

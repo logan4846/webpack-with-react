@@ -1,4 +1,4 @@
 
 export default function printMe() {
-    console.log("!!!!!!!!!!!!!!!!!!!!--------------");
+    console.log("this is a test function--");
 }

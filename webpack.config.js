@@ -10,11 +10,12 @@ const extractSass = new ExtractTextPlugin({
 });
 
 let env = process.env.NODE_ENV;//环境
+console.log("当前环境：" +env+"!!!!!!!!!!!!!!!!!!!");
 
 
 let config = {
     mode: 'production',
-    entry: [path.resolve("src/index.js")],
+    entry: env === 'dev' ? ['react-hot-loader/patch',path.resolve("src/index.dev.js")] : [path.resolve("src/index.js")],
     output: {
         path: path.resolve("build"),
         filename: 'src/js/[name].js'
@@ -32,22 +33,27 @@ let config = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ["@babel/preset-react", "@babel/preset-env"]
+                        presets: ["@babel/preset-react", "@babel/preset-env"],
+                        plugins:  env === 'dev' ? ["react-hot-loader/babel"] :[]
                     }
                 }
             },
             {
                 test: /\.scss$/,
                 exclude: path.resolve("node_modules"),
-                use: extractSass.extract({
-                    use: [
-                        {
-                            loader: "css-loader"
-                        }, {
-                            loader: "sass-loader"
-                        }
-                    ]
-                })
+                use: env === 'dev' ?
+                    [{loader:"style-loader"},{loader:"css-loader"},{loader:"sass-loader"}] //style-loader支持热更新便于开发，
+                    :
+                    extractSass.extract({//ExtractTextPlugin不支持开发调试，用于生产环境分割css
+                        fallback: [{loader: "style-loader"}],
+                        use: [
+                            {
+                                loader: "css-loader"
+                            }, {
+                                loader: "sass-loader"
+                            }
+                        ]
+                    })
             },
             {
                 test: /\.(png|jpg|gif|svg)$/,

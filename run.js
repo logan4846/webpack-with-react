@@ -27,7 +27,7 @@ function handleStatsMessage(err, stats) {
 //webpack构建
 function build() {
     console.log(chalk.white('编译中...'));
-    if(env === 'dev') WebpackDevServer.addDevServerEntrypoints(config, config.devServer);
+    if(env === 'dev') WebpackDevServer.addDevServerEntrypoints(config, config.devServer); //必须执行在webpack(config)之前,因会更改config
     let compiler = webpack(config);
     if (env === 'dev') {
         let server = new WebpackDevServer(compiler,config.devServer);
