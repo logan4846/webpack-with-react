@@ -25,11 +25,12 @@ function handleStatsMessage(err, stats) {
 }
 
 //webpack构建
-function build(entry) {
+function build() {
     console.log(chalk.white('编译中...'));
-    let compiler = webpack(Object.assign(config, entry));
+    if(env === 'dev') WebpackDevServer.addDevServerEntrypoints(config, config.devServer);
+    let compiler = webpack(config);
     if (env === 'dev') {
-        let server = new WebpackDevServer(compiler, config.devServer);
+        let server = new WebpackDevServer(compiler,config.devServer);
         server.listen(8080, 'localhost', (err) => {
             if (err) {
                 return console.log(err);

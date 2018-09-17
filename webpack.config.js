@@ -68,20 +68,20 @@ let config = {
             }
         ]
     },
-    watch: true,
-    watchOptions: {
-        // aggregateTimeout: 1000, //编译的延迟
-        ignored: [/node_modules/],//忽略不必要的文件
-        // poll: 500 // 轮询监听
-    },
+    // watch: true,
+    // watchOptions: {
+    //     // aggregateTimeout: 1000, //编译的延迟
+    //     ignored: [/node_modules/],//忽略不必要的文件
+    //     // poll: 500 // 轮询监听
+    // },
     devtool: "source-map"
 };
 
-if(env === 'dev') config.devServer = {
+if (env === 'dev') config.devServer = {
     hot: true,
-    watchOptions: {
-        poll: true
-    }
+    compress: true,
+    host: 'localhost',
+    stats: 'errors-only'
 };
 
 let plugins = env === 'dev' ?
@@ -126,6 +126,7 @@ let plugins = env === 'dev' ?
             }
         })
     ];
+
 
 module.exports = {
     ...config,

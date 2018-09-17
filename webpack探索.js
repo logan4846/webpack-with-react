@@ -182,15 +182,13 @@ module.exports =    {
         // ...
     },
     devServer: {
-        proxy: { // proxy URLs to backend development server
+        proxy: {
             '/api': 'http://localhost:3000'
         },
-        contentBase: path.join(__dirname, 'public'), // boolean | string | array, static file location
-        compress: true, // enable gzip compression
-        historyApiFallback: true, // true for index.html upon 404, object for multiple paths
-        hot: true, // hot module replacement. Depends on HotModuleReplacementPlugin
-        https: false, // true for self-signed, object for cert authority
-        noInfo: true, // only errors & warns on hot reload
+        contentBase: path.join(__dirname, 'public'), // 用于访问静态文件的路径
+        compress: true, // 启动压缩
+        hot: true, // 启动热跟新
+        noInfo: true, // 控制台无输出信息
         // ...
     },
 
