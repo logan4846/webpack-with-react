@@ -10,9 +10,13 @@ class App extends Component {
         }
     }
 
+    changeTitle(){
+        this.setState({title:this.state.title+this.state.title});
+    }
+
     render() {
         return (
-            <div className="App">
+            <div className="App" onClick={() => this.changeTitle()}>
                 <div>{this.state.title}</div>
                 <img className="photo" src={photo} alt=""/>
                 <div className="photo"> </div>
