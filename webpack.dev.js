@@ -63,7 +63,7 @@ let config = {
     },
     plugins:[
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('production')
+            'process.env.NODE_ENV': JSON.stringify('production')  //react-hot-loader ,bug,development环境不更新，production正常
         }),
         new HtmlWebpackPlugin({
             inject: true,//注入javascript方式 true/head/body/false
