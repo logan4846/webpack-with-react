@@ -4,8 +4,9 @@ const chalk = require('chalk');//命令行
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');//开发模式使用服务器
 
-var config = require('./webpack.config.js');//配置文件
+
 var env = process.env.NODE_ENV;//环境
+var config = env === 'dev' ? require('./webpack.dev.js') : require('./webpack.pro');//配置文件
 
 function handleStatsMessage(err, stats) {
     if (err || stats.hasErrors()) {
@@ -26,7 +27,7 @@ function handleStatsMessage(err, stats) {
 
 //webpack构建
 function build() {
-    console.log(chalk.white('编译中...'));
+    console.log(chalk.white(env+'编译中...'));
     if(env === 'dev') WebpackDevServer.addDevServerEntrypoints(config, config.devServer); //必须执行在webpack(config)之前,因会更改config
     let compiler = webpack(config);
     if (env === 'dev') {
