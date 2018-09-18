@@ -62,7 +62,7 @@ let config = {
         stats: 'errors-only'
     },
     plugins:[
-        //---react-hot-loader ,
+        // react-hot-loader下 react-hot-loader/index.js
         // development环境state改变不更新，但会保留当前的state
         // production环境state改变更新，但不会保留state
 
