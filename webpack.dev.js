@@ -62,9 +62,9 @@ let config = {
         stats: 'errors-only'
     },
     plugins:[
-        // new webpack.DefinePlugin({
-        //     'process.env.NODE_ENV': JSON.stringify('production')
-        // }),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('production')
+        }),
         new HtmlWebpackPlugin({
             inject: true,//注入javascript方式 true/head/body/false
             template: 'src/index.html',//模板
