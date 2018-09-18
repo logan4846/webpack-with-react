@@ -251,6 +251,7 @@ module.exports =    {
     CommonsChunkPlugin：提取公共代码块
     HtmlWebpackPlugin:  生成一个html模板
     webpack.HotModuleReplacementPlugin()  内置——启动热更新，配合webpack-dev-server使用
+    webpack.DefinePlugin(a:'"b"'):  编译时配置环境变量，仅限插件内部
 
     */
     plugins: [
