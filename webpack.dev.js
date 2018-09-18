@@ -5,7 +5,7 @@ const path = require('path');
 
 let config = {
     mode: 'development',
-    entry: ['react-hot-loader/patch', path.resolve("src/index.dev.js")],
+    entry: [path.resolve("src/index.dev.js")],
     output: {
         path: path.resolve("build"),
         filename: 'src/js/[name].js'
