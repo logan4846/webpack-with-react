@@ -66,9 +66,9 @@ let config = {
         // development环境state改变不更新，但会保留当前的state
         // production环境state改变更新，但不会保留state
 
-        // new webpack.DefinePlugin({
-        //     'process.env.NODE_ENV': JSON.stringify('production')
-        // }),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('development')
+        }),
         new HtmlWebpackPlugin({
             inject: true,//注入javascript方式 true/head/body/false
             template: 'src/index.html',//模板

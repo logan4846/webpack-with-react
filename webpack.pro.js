@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -19,6 +20,17 @@ let config = {
     resolve: {
         alias: {
             scss: path.resolve("src", "scss")
+        }
+    },
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+            automaticNameDelimiter: '_',//分隔符
+            //minSize: 30000,     //生成块的最小大小
+            //minChunks: 1,       //在分割之前的最小块数
+            maxAsyncRequests: 5,//按需加载并行最大请求数
+            maxInitialRequests: 3,//入口点并行请求最大数
+            //...
         }
     },
     module: {
@@ -70,6 +82,9 @@ let config = {
     },
     devtool: "source-map",
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('production')
+        }),
         new CleanWebpackPlugin(['build']),
         extractSass,
         new HtmlWebpackPlugin({

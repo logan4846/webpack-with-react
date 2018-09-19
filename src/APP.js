@@ -1,29 +1,35 @@
 import React, {Component} from 'react';
+import {HashRouter as Router,Route,Switch} from 'react-router-dom';
+import { cube } from './config/tools.js';
+import {Login,Home} from './scripts/index';
 import photo from './images/logo.jpg';
 import 'scss/App.scss';
-import { cube } from './config/tools.js';
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: 'this is a title'
+            name: 'LIVEEVIL'
         }
     }
 
-    changeTitle(){
+    test(){
         cube(2);
-        this.setState({title:this.state.title+this.state.title});
     }
 
     render() {
         return (
-            <div className="App" onClick={() => this.changeTitle()}>
-                <div>{this.state.title}</div>
+            <div className="App" onClick={() => this.test()}>
+                <div>{this.state.name}</div>
                 <img className="photo" src={photo} alt=""/>
-                <div className="photo"> </div>
-                <div style={{fontWeight:'bold',background: 'url(' + photo + ') no-repeat center/cover'}}>memo</div>
-                <div className="special"> </div>
+                <div className="app-container">
+                    <Router>
+                        <Switch>
+                            <Route exact path="/" component={Login}/>
+                            <Route exact path="/home/:id" component={Home}/>
+                        </Switch>
+                    </Router>
+                </div>
             </div>
         )
     }
