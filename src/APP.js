@@ -20,16 +20,22 @@ class App extends Component {
     render() {
         return (
             <div className="App" onClick={() => this.test()}>
-                <div>{this.state.name}</div>
-                <img className="photo" src={photo} alt=""/>
-                <div className="app-container">
-                    <Router>
-                        <Switch>
-                            <Route exact path="/" component={Login}/>
-                            <Route exact path="/home/:id" component={Home}/>
-                        </Switch>
-                    </Router>
+                <div className="header">
+                    <div className="name">{this.state.name}</div>
+                    <img className="photo" src={photo} alt=""/>
                 </div>
+                <div className="content">
+                    <div className="app-left">left</div>
+                    <div className="app-container">
+                        <Router>
+                            <Switch>
+                                <Route exact path="/" component={Login}/>
+                                <Route exact path="/home/:id" component={Home}/>
+                            </Switch>
+                        </Router>
+                    </div>
+                </div>
+
             </div>
         )
     }
