@@ -1,4 +1,7 @@
+export function square(x) {
+    return x * x;
+}
 
-export default function printMe() {
-    console.log("this is a test function--");
+export function cube(x) {
+    return x * x * x;
 }

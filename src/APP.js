@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import photo from './images/logo.jpg';
 import 'scss/App.scss';
+import { cube } from './config/tools.js';
 
 class App extends Component {
     constructor(props) {
@@ -11,6 +12,7 @@ class App extends Component {
     }
 
     changeTitle(){
+        cube(2);
         this.setState({title:this.state.title+this.state.title});
     }
 
