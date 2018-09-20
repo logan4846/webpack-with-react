@@ -58,7 +58,7 @@ let config = {
                     loader: 'babel-loader',
                     options: {
                         presets: ["@babel/preset-react", "@babel/preset-env"],
-                        plugins: ["@babel/plugin-syntax-dynamic-import"]
+                        plugins: ["@babel/plugin-syntax-dynamic-import"]//动态引入
                     }
                 }
             },
