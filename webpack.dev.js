@@ -72,17 +72,6 @@ let config = {
         new HtmlWebpackPlugin({
             inject: true,//注入javascript方式 true/head/body/false
             template: 'src/index.html',//模板
-            minify: {
-                removeComments: true,
-                collapseWhitespace: true,//去除标签之间的空格
-                removeRedundantAttributes: true,//移除多余属性设置 如 <input type="text" /> => <input />
-                useShortDoctype: true, //<!DOCTYPE html>处理
-                removeEmptyAttributes: true,//移除空白属性  如class=""
-                removeStyleLinkTypeAttributes: true,//移除 <link/>中的type="text/css"，其他值不动
-                minifyJS: true,
-                minifyCSS: true,
-                minifyURLs: true
-            }
         }),
         new webpack.HotModuleReplacementPlugin()//启动热更新
     ]

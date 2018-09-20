@@ -115,6 +115,7 @@ module.exports =    {
     * style-loader 将解析并将css并入页面的style标签内
     * css-loader   处理css文件，包括其中的图片url
     * scss-loader  处理scss文件
+    * url-loader   像 file loader 一样工作，但如果文件小于限制，可以返回 data URL
     * file-loader  处理import的文件，如图片，字体等
     * csv-loader   处理csv文件，默认支持json文件引入 如：import json from './json';
     * xml-loader   处理xml文件
