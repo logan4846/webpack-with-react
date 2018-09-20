@@ -278,7 +278,7 @@ module.exports =    {
     ]
     列表：
     ExtractTextPlugin： 提取css到独立的文件，webpack4需使用4.0及以上版本
-    CommonsChunkPlugin：提取公共代码块
+    CommonsChunkPlugin：提取公共代码块，!!!!!!!!!!!!4.x已废弃
     HtmlWebpackPlugin:  生成一个html模板
     webpack.HotModuleReplacementPlugin()  内置——启动热更新，配合webpack-dev-server使用
     webpack.DefinePlugin(a:'"b"'):  编译时配置环境变量，仅限插件内部
