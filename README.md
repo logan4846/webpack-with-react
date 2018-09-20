@@ -16,8 +16,10 @@
 
 
 ##### 已下是webpack笔记内容
-1.webpack命令
-2.node模式：
+###### 使用方式
+1. webpack命令
+
+2. node模式：
 const webpack = require('webpack');
 let compiler = webpack(config);
 compiler.run(config.watchOptions, (err, stats) => {});
@@ -308,3 +310,5 @@ compiler.run(config.watchOptions, (err, stats) => {});
         ]
     };
 ```
+
+
