@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const childProcess = require('child_process');
 const chalk = require('chalk');//命令行
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');//开发模式使用服务器
@@ -37,6 +38,7 @@ function build() {
                 return console.log(err);
             }
             console.log('Starting server on http://localhost:8080');
+            childProcess.exec('start http://localhost:8080');
             console.log();
         });
     }
