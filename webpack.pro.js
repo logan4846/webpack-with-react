@@ -119,7 +119,7 @@ let config = {
                 minifyURLs: true
             }
         }),
-        new webpack.HashedModuleIdsPlugin()
+        new webpack.HashedModuleIdsPlugin() //用于生产环境，文件名生成处理，避免vendor文件hash没必要更新
     ]
 };
 

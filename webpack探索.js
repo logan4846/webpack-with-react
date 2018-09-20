@@ -287,7 +287,7 @@ module.exports =    {
        ReactDOM:'react-dom',
        Component:['react','Component']
     })   提供全局变量，这些变量不必再import了
-
+    new webpack.HashedModuleIdsPlugin() //用于生产环境，文件名生成处理，避免vendor文件hash没必要更新
     */
     plugins: [
         extractSass
