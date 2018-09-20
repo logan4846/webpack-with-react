@@ -160,6 +160,35 @@ module.exports =    {
         plugins: []
     },
 
+    /*SplitChunksPlugin的使用*/
+    optimization: {
+        runtimeChunk: 'single',//
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    //!!!!!!!可继承或重写splitChunks里面的配置
+                    test: path.resolve("node_modules"),//正则匹配或绝对路径
+                    name: 'vendors',//生成的文件
+                    chunks: 'all',//initial(初始块)、async(按需加载块)、all(全部块);
+                    priority:10  //优先级
+                },
+                components:{
+                    test:path.resolve("src","config"),//正则匹配或绝对路径
+                    name: 'commons',
+                    chunks: 'all'
+                }
+            },
+            chunks: 'all',//initial(初始块)、async(按需加载块)、all(全部块);
+            name:true,//设置true按照cacheGroups的key生产，默认vender
+            automaticNameDelimiter: '_',//分隔符
+            //minSize: 30000,     //生成块的最小大小
+            //minChunks: 1,       //在分割之前的最小块数
+            maxAsyncRequests: 5,//按需加载并行最大请求数
+            maxInitialRequests: 3,//入口点并行请求最大数
+            //...
+        }
+    },
+
     /* 性能提示
    * */
     performance: {
@@ -253,6 +282,11 @@ module.exports =    {
     webpack.HotModuleReplacementPlugin()  内置——启动热更新，配合webpack-dev-server使用
     webpack.DefinePlugin(a:'"b"'):  编译时配置环境变量，仅限插件内部
     SplitChunksPlugin: 代码分离
+    new webpack.ProvidePlugin({
+       React:'react',
+       ReactDOM:'react-dom',
+       Component:['react','Component']
+    })   提供全局变量，这些变量不必再import了
 
     */
     plugins: [

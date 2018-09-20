@@ -243,6 +243,12 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
 
+"@babel/plugin-syntax-dynamic-import@^7.0.0":
+  version "7.0.0"
+  resolved "http://npm.fe.weimob.cn/@babel%2fplugin-syntax-dynamic-import/-/plugin-syntax-dynamic-import-7.0.0.tgz#6dfb7d8b6c3be14ce952962f658f3b7eb54c33ee"
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0"
+
 "@babel/plugin-syntax-json-strings@^7.0.0":
   version "7.0.0"
   resolved "http://npm.fe.weimob.cn/@babel%2fplugin-syntax-json-strings/-/plugin-syntax-json-strings-7.0.0.tgz#0d259a68090e15b383ce3710e01d5b23f3770cbd"
@@ -4294,7 +4300,7 @@ promise-inflight@^1.0.1:
   version "1.0.1"
   resolved "http://npm.fe.weimob.cn/promise-inflight/-/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
 
-prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@^15.5.0, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.6.2"
   resolved "http://npm.fe.weimob.cn/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   dependencies:
@@ -4439,6 +4445,12 @@ react-hot-loader@^4.3.8:
 react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "http://npm.fe.weimob.cn/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
+
+react-loadable@^5.5.0:
+  version "5.5.0"
+  resolved "http://npm.fe.weimob.cn/react-loadable/-/react-loadable-5.5.0.tgz#582251679d3da86c32aae2c8e689c59f1196d8c4"
+  dependencies:
+    prop-types "^15.5.0"
 
 react-router-dom@^4.3.1:
   version "4.3.1"

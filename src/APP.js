@@ -1,9 +1,17 @@
 import React, {Component} from 'react';
 import {HashRouter as Router,Route,Switch} from 'react-router-dom';
 import { cube } from './config/tools.js';
-import {Login,Home} from './scripts/index';
+import {Login} from './scripts/index';
 import photo from './images/logo.jpg';
 import 'scss/App.scss';
+
+//预加载
+import Loadable from 'react-loadable';
+import Loading from './components/Loading';
+const LoadableHome = Loadable({
+    loader: () => import('./scripts/Home'),
+    loading:Loading
+});
 
 class App extends Component {
     constructor(props) {
@@ -30,7 +38,7 @@ class App extends Component {
                         <Router>
                             <Switch>
                                 <Route exact path="/" component={Login}/>
-                                <Route exact path="/home/:id" component={Home}/>
+                                <Route exact path="/home/:id" component={LoadableHome}/>
                             </Switch>
                         </Router>
                     </div>

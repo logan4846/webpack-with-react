@@ -15,7 +15,7 @@ let config = {
     entry: [path.resolve("src/index.js")],
     output: {
         path: path.resolve("build"),
-        filename: 'src/js/[name].js'
+        filename: 'src/js/[name].[chunkhash].js'
     },
     resolve: {
         alias: {
@@ -23,13 +23,29 @@ let config = {
         }
     },
     optimization: {
+        runtimeChunk:'single',
         splitChunks: {
+            cacheGroups: {
+                vendors: {
+                    test: path.resolve("node_modules"),//正则匹配或绝对路径
+                    name: 'vendors'//生成的文件
+                },
+                config:{
+                    test:path.resolve("src","config"),
+                    name: 'config'
+                },
+                components:{
+                    test:path.resolve("src","components"),
+                    name: 'commons'
+                }
+            },
             chunks: 'all',
-            automaticNameDelimiter: '_',//分隔符
-            //minSize: 30000,     //生成块的最小大小
-            //minChunks: 1,       //在分割之前的最小块数
+            //name:true,
+            //automaticNameDelimiter: '_',//分隔符
+            minSize: 0,     //生成块的最小大小
+            minChunks: 1,       //在分割之前的最小块数
             maxAsyncRequests: 5,//按需加载并行最大请求数
-            maxInitialRequests: 3,//入口点并行请求最大数
+            maxInitialRequests: 4,//入口点并行请求最大数，若设置为5,，cacheGroup长度为4，则有个不会被处理
             //...
         }
     },
@@ -41,7 +57,8 @@ let config = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ["@babel/preset-react", "@babel/preset-env"]
+                        presets: ["@babel/preset-react", "@babel/preset-env"],
+                        plugins: ["@babel/plugin-syntax-dynamic-import"]
                     }
                 }
             },
@@ -101,7 +118,8 @@ let config = {
                 minifyCSS: true,
                 minifyURLs: true
             }
-        })
+        }),
+        new webpack.HashedModuleIdsPlugin()
     ]
 };
 

@@ -6,8 +6,9 @@ class Home extends Component {
         this.state = {}
     }
 
-    componentDidMount(){
-        console.log(this.props.match.params);
+    componentDidMount() {
+        if (this.props.match)
+            console.log(this.props.match.params);
     }
 
     render() {

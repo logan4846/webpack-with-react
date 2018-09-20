@@ -24,7 +24,7 @@ let config = {
                     loader: 'babel-loader',
                     options: {
                         presets: ["@babel/preset-react", "@babel/preset-env"],
-                        plugins: ["react-hot-loader/babel"]
+                        plugins: ["react-hot-loader/babel","@babel/plugin-syntax-dynamic-import"]
                     }
                 }
             },
