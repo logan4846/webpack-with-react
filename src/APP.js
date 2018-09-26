@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {HashRouter as Router,Route,Switch} from 'react-router-dom';
-import { cube } from './config/tools.js';
 import {Login} from './scripts/index';
 import photo from './images/logo.jpg';
 import 'scss/App.scss';
@@ -21,13 +20,9 @@ class App extends Component {
         }
     }
 
-    test(){
-        cube(2);
-    }
-
     render() {
         return (
-            <div className="App" onClick={() => this.test()}>
+            <div className="App">
                 <div className="header">
                     <div className="name">{this.state.name}</div>
                     <img className="photo" src={photo} alt=""/>
