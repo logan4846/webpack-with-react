@@ -121,10 +121,10 @@ export default connect(mapStateToProps,mapDispatchToProps)(Login);
             const chain = middlewares.map(middleware => middleware(middlewareAPI))
         dispatch = compose(...chain)(store.dispatch)
         //store.dispatch作为参数传入chain最后一个函数
-        //如插件A B
-        A1 = A(middlewareAPI);
-        B1 = B(middlewareAPI);
-        dispatch = A1(B1(store.dispatch))
+        //如插件A B,
+        //middlewares = [A,B]
+        //chain = [A(middlewareAPI),B(middlewareAPI)]
+        //dispatch = A1(B1(store.dispatch))
         return {
             ...store,
             dispatch
