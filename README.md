@@ -21,32 +21,28 @@
 
 ------------
 
-
 #### redux
-- ######同步
-[![rudux流程](http://pd0zb8hw9.bkt.clouddn.com/redux.png "rudux流程")](http://pd0zb8hw9.bkt.clouddn.com/redux.png "rudux流程")
+- [流程图，点击查看](http://pd0zb8hw9.bkt.clouddn.com/redux.png "同步流程图查看")
 
-- ######中间件
-[![redux](http://pd0zb8hw9.bkt.clouddn.com/redux_middleware.png "redux")](http://pd0zb8hw9.bkt.clouddn.com/redux_middleware.png "redux")
+- [有中间件流程图，点击查看](http://pd0zb8hw9.bkt.clouddn.com/redux_middleware.png "有中间件流程图，点击查看")
 
-- [applyMiddleware源码](https://github.com/RongMine/webpack-with-react/blob/master/src/scripts/Login.js "applyMiddleware源码")
+- [applyMiddleware源码](https://github.com/RongMine/webpack-with-react/blob/master/src/scripts/Login.js "applyMiddleware源码") **位于文件底部**
 
 ------------
-
 
 #### redux-thunk解析
 
 ###### 配置说明
 
+[src/index.dev.js](https://github.com/RongMine/webpack-with-react/blob/master/src/index.dev.js "目录：/index.dev.js")
 ```javascript
-目录：/index.dev.js
  <Provider store={store}>
             <App/>
  </Provider>
 ```
 
+[/src/redux_config/store.js](https://github.com/RongMine/webpack-with-react/blob/master/src/redux_config/store.js "/src/redux_config/store.js")
 ```javascript
-//!!!!!!!./src/redux_config/store.js
 ...;
 export default createStore(
     rootReducer,
@@ -59,8 +55,8 @@ export default createStore(
 //带额外参数使用  applyMiddleware(thunk.withExtraArgument(api))
 ```
 
+[/src/scripts/Login.js](https://github.com/RongMine/webpack-with-react/blob/master/src/scripts/Login.js "/src/scripts/Login.js")
 ```javascript
-目录：/src/scripts/Login.js
 //mapStateToProps  决定state的哪部分注入到当前props,当state改变时调用
 const mapStateToProps = state => state.Login;
 
@@ -100,3 +96,5 @@ thunk.withExtraArgument = createThunkMiddleware;
 
 export default thunk;
 ```
+
+
