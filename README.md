@@ -12,6 +12,7 @@
 - 运行 > yarn  安装依赖包
 - 运行 > yarn start 进入开发环境
 - 运行 > yarn build 打包到build文件
+- 运行 > yarn run server 运行json-server(可选)
 
 ##### 环境：webpack 4.17.1
 ###### 已下是笔记内容

@@ -2,7 +2,7 @@
 function log() {
     return ({ dispatch, getState }) => next => action => {
         console.log("！！开始dispatch，actionType为："+ ((typeof action === 'function') ? 'function' :action.type));
-        return next(action);
+        next(action);
     };
 }
 
