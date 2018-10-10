@@ -5,10 +5,10 @@ const path = require('path');
 
 let config = {
     mode: 'development',
-    entry: [path.resolve("src/index.dev.js")],
+    entry: [path.resolve("src/APP.js")],
     output: {
         path: path.resolve("build"),
-        filename: 'src/js/[name].js'
+        filename: 'App.js'
     },
     resolve: {
         alias: {

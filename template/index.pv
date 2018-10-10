@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>webpack-learn</title>
+    <link rel="icon" type="image/x-icon" class="js-site-favicon" href="http://pd0zb8hw9.bkt.clouddn.com/favicon.ico">
+    <style type="text/css">
+        ${stylesheets}
+    </style>
+</head>
+<body>
+  <div id="root">${app}</div>
+</body>
+</html>

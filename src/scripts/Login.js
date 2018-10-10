@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import 'scss/Login.scss';
 import CT from '../components/ComponentTest';
 import CTForwardingRefs from '../components/ComponentTestForwardingRefs';
 import UseRenderProps from '../components/UseRenderProps';

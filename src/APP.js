@@ -1,16 +1,8 @@
 import React, {Component} from 'react';
 import {HashRouter as Router,Route,Switch} from 'react-router-dom';
-import {Login} from './scripts/index';
-import photo from './images/logo.jpg';
-import 'scss/App.scss';
-
-//预加载
-import Loadable from 'react-loadable';
-import Loading from './components/Loading';
-const LoadableHome = Loadable({
-    loader: () => import('./scripts/Home'),
-    loading:Loading
-});
+import {Login,Home} from './scripts/index';
+// import photo from './images/logo.jpg';
+import ReactDOMServer from "react-dom/server";
 
 class App extends Component {
     constructor(props) {
@@ -25,7 +17,7 @@ class App extends Component {
             <div className="App">
                 <div className="header">
                     <div className="name">{this.state.name}</div>
-                    <img className="photo" src={photo} alt=""/>
+                    {/*<img className="photo" src={photo} alt=""/>*/}
                 </div>
                 <div className="content">
                     <div className="app-left">left</div>
@@ -33,7 +25,7 @@ class App extends Component {
                         <Router>
                             <Switch>
                                 <Route exact path="/" component={Login}/>
-                                <Route exact path="/home/:id" component={LoadableHome}/>
+                                <Route exact path="/home/:id" component={Home}/>
                             </Switch>
                         </Router>
                     </div>
@@ -44,4 +36,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export var AppContent = ReactDOMServer.renderToString(<App/>);

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=dev node run.js",
     "build": "cross-env NODE_ENV=pro node run.js",
-    "server" : "json-server server_test/db.json"
+    "server": "json-server server_test/db.json"
   },
   "keywords": [
     "miniprogram"
@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
+    "pug": "^2.0.3",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
     "react-loadable": "^5.5.0",
@@ -28,6 +29,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
     "babel-loader": "8.0.0-beta.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "chalk": "^2.4.1",
