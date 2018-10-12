@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=dev node run.js",
     "build": "cross-env NODE_ENV=pro node run.js",
-    "server": "json-server server_test/db.json",
+    "server": "json-server server_test/db.json --p 8080",
     "ssr":"babel-node server"
   },
   "keywords": [

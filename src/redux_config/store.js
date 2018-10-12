@@ -6,7 +6,7 @@ import log from './logMiddleware';
 export default createStore(
     rootReducer,
     applyMiddleware(log,thunk.withExtraArgument({
-        getUsers:'http://localhost:3000/users/1'
+        getUsers:'http://localhost:8080/users/1'
     }))
 );
 

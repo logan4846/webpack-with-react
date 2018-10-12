@@ -10,7 +10,6 @@ import webpack from "webpack";
 var app = new express();
 var stylesheets;
 var jsLibrary = "console.log('has ready');";
-console.log(jsLibrary);
 
 //处理js
 app.use(function(req,res,next){
