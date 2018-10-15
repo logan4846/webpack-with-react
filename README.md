@@ -2,7 +2,7 @@
 ##### 服务端渲染简单示例
 - express构建基本路由，中间件，模板引擎
 - webpack处理客户端js，babel处理服务端js并用ReactDOMServer.renderToString生成页面字符串
-- node-sass处理js
+- node-sass处理scss
 - 合并css、js到模板
 - 返回路由页面
 
