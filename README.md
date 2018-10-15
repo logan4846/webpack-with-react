@@ -7,6 +7,7 @@
 - 支持redux，自定义中间件示例目录：src/redux_config/logMiddleware.js
 - webpack配置解析
 - redux、redux-thunk部分源码分析
+- [服务端渲染简单示例为ssr分支](https://github.com/RongMine/webpack-with-react/tree/ssr "地址")
 
 ##### 演示步骤
 - 运行 > yarn  安装依赖包
