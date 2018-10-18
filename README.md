@@ -7,8 +7,7 @@
 - 思想总结
 
 ##### 源码目录 react_source_code
-- packages:源码源文件目录
-- 目录下的.js文件：源码片段含注释
+##### 笔记目录 react_note
 
 1.梳理react虚拟dom首次渲染过程
 
