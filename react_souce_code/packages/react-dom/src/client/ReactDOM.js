@@ -460,7 +460,7 @@ ReactGenericBatching.setBatchingImplementation(
 
 let warnedAboutHydrateAPI = false;
 
-function legacyCreateRootFromDOMContainer(
+function  legacyCreateRootFromDOMContainer(
   container: DOMContainer,
   forceHydrate: boolean,
 ): Root {
@@ -522,15 +522,16 @@ function legacyRenderSubtreeIntoContainer(
     topLevelUpdateWarnings(container);
   }
 
-  // TODO: Without `any` type, Flow says "Property can    not be accessed on any
+  // TODO: Without `any` type, Flow says "Property can not be accessed on any
   // member of intersection type." Whyyyyyy.
   let root: Root = (container._reactRootContainer: any);
   if (!root) {
-    // Initial mount
+    // Initial mount 根容器
     root = container._reactRootContainer = legacyCreateRootFromDOMContainer(
       container,
       forceHydrate,
     );
+    //
     if (typeof callback === 'function') {
       const originalCallback = callback;
       callback = function() {

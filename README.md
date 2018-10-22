@@ -11,4 +11,5 @@
 
 1.梳理react虚拟dom首次渲染过程
 
-  [1]. React.createElement 源码及笔记
+  [1]. React.createElement：可以创建react元素：[源码及笔记](https://github.com/RongMine/webpack-with-react/blob/react-source-code/react_note/ReactElement.js)
+  [2]. ReactDom.render: 将虚拟dom渲染成真实dom。
