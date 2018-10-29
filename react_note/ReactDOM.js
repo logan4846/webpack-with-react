@@ -104,7 +104,7 @@ function getReactRootElementInContainer(container: any) {
     if (!container) {
         return null;
     }
-
+    //代表整个文档（DOM 树的根节点）。
     if (container.nodeType === DOCUMENT_NODE) {
         return container.documentElement;
     } else {
@@ -114,7 +114,7 @@ function getReactRootElementInContainer(container: any) {
 
 //
 function shouldHydrateDueToLegacyHeuristic(container) {
-    const rootElement = getReactRootElementInContainer(container);//
+    const rootElement = getReactRootElementInContainer(container);//null
     return !!(
         rootElement &&  // 不为 null undefined ""
         rootElement.nodeType === ELEMENT_NODE &&   //  是否是一个元素节点 即 html标签
@@ -126,6 +126,7 @@ function legacyCreateRootFromDOMContainer(
     container: DOMContainer,
     forceHydrate: boolean,
 ): Root {
+    // shouldHydrate = false;
     const shouldHydrate =
         forceHydrate || shouldHydrateDueToLegacyHeuristic(container);
     /*
@@ -182,7 +183,6 @@ function legacyRenderSubtreeIntoContainer(
   forceHydrate: boolean,//false
   callback: ?Function,//callback
 ) {
-  // TODO: Ensure all entry points contain this check
     // 验证节点类型
   invariant(
     isValidContainer(container),
@@ -193,11 +193,17 @@ function legacyRenderSubtreeIntoContainer(
       topLevelUpdateWarnings(container);
   }
 
-  // TODO: Without `any` type, Flow says "Property cannot be accessed on any
-  // member of intersection type." Whyyyyyy.
   let root: Root = (container._reactRootContainer: any);
   if (!root) {
-    // Initial mount
+      // 生成root，附加fiber相关到_reactRootContainer
+      /*
+       root = container._reactRootContainer = {
+          _internalRoot  = {
+             current:{...,stateNode:xx}
+             ...
+          }
+       }
+      */
     root = container._reactRootContainer = legacyCreateRootFromDOMContainer(
       container,
       forceHydrate,

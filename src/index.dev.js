@@ -6,7 +6,7 @@ import App from "./APP.js";
 import 'scss/index.scss';
 import store from "./redux_config/store";
 
-// debugger;
+debugger;
 
 ReactDOM.render(
     <AppContainer>

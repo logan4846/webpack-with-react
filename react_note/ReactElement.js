@@ -5,7 +5,7 @@ jsx中render(<div id='root'> ...<div>都会转成React.createElement('div',{id:'
 
 * 传入值
 * type:类型，html标签或者react组件
-* config:props对象如{className:'modal'}
+* confi g:props对象如{className:'modal'}
 * children:子节点：支持数组或者组件如 child1或[child1,child2]或child1,child2
 *
 *  返回值
