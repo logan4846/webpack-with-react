@@ -1144,7 +1144,7 @@ function renderRoot(
   isWorking = true;
   ReactCurrentOwner.currentDispatcher = Dispatcher;
 
-  const expirationTime = root.nextExpirationTimeToWorkOn;
+  const expirationTime = root.nextExpirationTimeToWorkOn;//noWork
 
   // Check if we're starting from a fresh stack, or if we're resuming from
   // previously yielded work.
@@ -1222,7 +1222,7 @@ function renderRoot(
 
   do {
     try {
-      workLoop(isYieldy);
+      workLoop(isYieldy);//workLoop(false);
     } catch (thrownValue) {
       if (nextUnitOfWork === null) {
         // This is a fatal error.
@@ -1959,7 +1959,7 @@ function requestWork(root: FiberRoot, expirationTime: ExpirationTime) {
   if (isRendering) {
     // Prevent reentrancy. Remaining work will be scheduled at the end of
     // the currently rendering batch.
-    return;
+    return;//渲染完成再执行剩余任务
   }
 
   if (isBatchingUpdates) {

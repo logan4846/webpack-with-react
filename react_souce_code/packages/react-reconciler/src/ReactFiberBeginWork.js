@@ -1232,16 +1232,16 @@ function memoizeState(workInProgress: Fiber, nextState: any) {
   // is handled by processUpdateQueue.
 }
 
-function beginWork(
+function  beginWork(
   current: Fiber | null,
   workInProgress: Fiber,
   renderExpirationTime: ExpirationTime,
 ): Fiber | null {
-  const updateExpirationTime = workInProgress.expirationTime;
+  const updateExpirationTime = workInProgress.expirationTime;//root.current
 
   if (current !== null) {
-    const oldProps = current.memoizedProps;
-    const newProps = workInProgress.pendingProps;
+    const oldProps = current.memoizedProps;//root.current.memoizedProps
+    const newProps = workInProgress.pendingProps;//root.current.memoizedProps
     if (
       oldProps === newProps &&
       !hasLegacyContextChanged() &&

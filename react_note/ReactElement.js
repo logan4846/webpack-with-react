@@ -33,7 +33,7 @@ export function createElement(type, config, children) {
   let source = null;
 
   if (config != null) {
-    //判断有误ref属性
+    //判断有无ref属性
     if (hasValidRef(config)) {
       ref = config.ref;
     }
@@ -42,8 +42,8 @@ export function createElement(type, config, children) {
       key = '' + config.key;
     }
 
-    self = config.__self === undefined ? null : config.__self;
-    source = config.__source === undefined ? null : config.__source;
+    self = config.__self === undefined ? null : config.__self;//null
+    source = config.__source === undefined ? null : config.__source;//null
     // Remaining properties are added to a new props object
       //复制config属性到props
     for (propName in config) {
@@ -53,7 +53,7 @@ export function createElement(type, config, children) {
       ) {
         props[propName] = config[propName];
       }
-    }
+    }//  props:{className:'app'}
   }
 
   // Children can be more than one argument, and those are transferred onto
@@ -61,7 +61,7 @@ export function createElement(type, config, children) {
     //将子节点塞到props下
   const childrenLength = arguments.length - 2;
   if (childrenLength === 1) {
-    props.children = children;
+    props.children = children;//props.children = 'content'
   } else if (childrenLength > 1) {
     const childArray = Array(childrenLength);
     for (let i = 0; i < childrenLength; i++) {

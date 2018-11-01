@@ -262,7 +262,7 @@ function findNextExpirationTimeToWorkOn(completedExpirationTime, root) {
   // Work on the earliest pending time. Failing that, work on the latest
   // pinged time.
   let nextExpirationTimeToWorkOn =
-    earliestPendingTime !== NoWork ? earliestPendingTime : latestPingedTime;
+    earliestPendingTime !== NoWork ? earliestPendingTime : latestPingedTime;//root.latestSuspendedTime
 
   // If there is no pending or pinged work, check if there's suspended work
   // that's lower priority than what we just completed.

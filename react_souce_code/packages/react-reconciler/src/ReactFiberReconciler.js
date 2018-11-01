@@ -297,7 +297,7 @@ export function updateContainer(
     parentComponent,
     expirationTime,
     callback,
-  );
+  ) ;
 }
 
 export {

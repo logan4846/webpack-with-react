@@ -218,12 +218,12 @@ export function enqueueUpdate<State>(fiber: Fiber, update: Update<State>) {
   const alternate = fiber.alternate;
   let queue1;
   let queue2;
-  if (alternate === null) {
+  if (alternate === null) { //null
     // There's only one fiber.
-    queue1 = fiber.updateQueue;
-    queue2 = null;
+    queue1 = fiber.updateQueue;//null
+    queue2 = null;//null
     if (queue1 === null) {
-      queue1 = fiber.updateQueue = createUpdateQueue(fiber.memoizedState);
+      queue1 = fiber.updateQueue = createUpdateQueue(fiber.memoizedState);//
     }
   } else {
     // There are two owners.
@@ -409,7 +409,7 @@ export function processUpdateQueue<State>(
 ): void {
   hasForceUpdate = false;
 
-  queue = ensureWorkInProgressQueueIsAClone(workInProgress, queue);
+  queue = ensureWorkInProgressQueueIsAClone(workInProgress, queue);//拷贝
 
   if (__DEV__) {
     currentlyProcessingQueue = queue;
