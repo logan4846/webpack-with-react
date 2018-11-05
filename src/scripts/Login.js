@@ -52,9 +52,29 @@ class Login extends Component {
         clearInterval(this.interval);
     }
 
+    test(){
+        let a = {name:'xxx'};
+        let currentValue;
+        Object.defineProperty(a,'name',{
+            get(){
+                console.log(`正在获取属性name，值为：`+currentValue);
+                return currentValue;
+            },
+            set(newValue){
+                console.log(`正在设置属性name，值为：`+newValue);
+                currentValue = newValue;
+            }
+        });
+        a.name = 'hahaha';
+        console.log(a.name);
+        a.name = 1;
+        console.log(a.name);
+    }
+
     render() {
         return (
             <div className="Login">
+                <button onClick={() => this.test()}>test Object.defineProperty</button>
                 <div onClick={() => this.props.createChangeContent("Change State redux")}>{this.props.title}</div>
                 <div onClick={() => console.log(this.props)}>打印props</div>
                 <div onClick={() => this.props.httpGet()}>(redux中间件)发送http</div>

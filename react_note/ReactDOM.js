@@ -212,7 +212,7 @@ function legacyRenderSubtreeIntoContainer(
       const originalCallback = callback;
       callback = function() {
         const instance = DOMRenderer.getPublicRootInstance(root._internalRoot);
-        originalCallback.call(instance);
+        originalCal0lback.call(instance);
       };
     }
     // Initial mount should not be batched.
