@@ -215,7 +215,7 @@ function appendUpdateToQueue<State>(
 
 export function enqueueUpdate<State>(fiber: Fiber, update: Update<State>) {
   // Update queues are created lazily.
-  const alternate = fiber.alternate;
+  const alternate = fiber.alternate;//null
   let queue1;
   let queue2;
   if (alternate === null) { //null

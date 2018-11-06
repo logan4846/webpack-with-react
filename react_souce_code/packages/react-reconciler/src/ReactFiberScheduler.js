@@ -1619,7 +1619,7 @@ function scheduleWorkToRoot(fiber: Fiber, expirationTime): FiberRoot | null {
   ) {
     fiber.expirationTime = expirationTime;
   }
-  let alternate = fiber.alternate;
+  let alternate = fiber.alternate;//null
   if (
     alternate !== null &&
     (alternate.expirationTime === NoWork ||
@@ -1628,10 +1628,10 @@ function scheduleWorkToRoot(fiber: Fiber, expirationTime): FiberRoot | null {
     alternate.expirationTime = expirationTime;
   }
   // Walk the parent path to the root and update the child expiration time.
-  let node = fiber.return;
+  let node = fiber.return;//root
   let root = null;
   if (node === null && fiber.tag === HostRoot) {
-    root = fiber.stateNode;
+    root = fiber.stateNode;//null
   } else {
     while (node !== null) {
       alternate = node.alternate;
