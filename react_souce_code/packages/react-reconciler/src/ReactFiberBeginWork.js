@@ -119,11 +119,17 @@ if (__DEV__) {
   didWarnAboutFunctionRefs = {};
 }
 
+/*
+*   current,//null
+    workInProgress,//child
+    nextChildren,//null
+    renderExpirationTime,//Sync
+* */
 export function reconcileChildren(
-  current: Fiber | null,
-  workInProgress: Fiber,
-  nextChildren: any,
-  renderExpirationTime: ExpirationTime,
+  current: Fiber | null,//1     2.null
+  workInProgress: Fiber,//1     2.child
+  nextChildren: any,//1.element 2.null
+  renderExpirationTime: ExpirationTime,//Sync
 ) {
   if (current === null) {
     // If this is a fresh new component that hasn't been rendered yet, we
@@ -131,10 +137,10 @@ export function reconcileChildren(
     // we will add them all to the child before it gets rendered. That means
     // we can optimize this reconciliation pass by not tracking side-effects.
     workInProgress.child = mountChildFibers(
-      workInProgress,
+      workInProgress,//child
       null,
-      nextChildren,
-      renderExpirationTime,
+      nextChildren,//null
+      renderExpirationTime,//Sync
     );
   } else {
     // If the current child is the same as the work in progress, it means that
@@ -145,9 +151,9 @@ export function reconcileChildren(
     // let's throw it out.
     workInProgress.child = reconcileChildFibers(
       workInProgress,
-      current.child,
-      nextChildren,
-      renderExpirationTime,
+      current.child,//null
+      nextChildren,//element
+      renderExpirationTime,//Sync
     );
   }
 }
@@ -538,7 +544,7 @@ function finishClassComponent(
 }
 
 function pushHostRootContext(workInProgress) {
-  const root = (workInProgress.stateNode: FiberRoot);
+  const root = (workInProgress.stateNode: FiberRoot);//root
   if (root.pendingContext) {
     pushTopLevelContextObject(
       workInProgress,
@@ -554,16 +560,16 @@ function pushHostRootContext(workInProgress) {
 
 function updateHostRoot(current, workInProgress, renderExpirationTime) {
   pushHostRootContext(workInProgress);
-  const updateQueue = workInProgress.updateQueue;
+  const updateQueue = workInProgress.updateQueue;//current.updateQueue
   invariant(
     updateQueue !== null,
     'If the root does not have an updateQueue, we should have already ' +
       'bailed out. This error is likely caused by a bug in React. Please ' +
       'file an issue.',
   );
-  const nextProps = workInProgress.pendingProps;
-  const prevState = workInProgress.memoizedState;
-  const prevChildren = prevState !== null ? prevState.element : null;
+  const nextProps = workInProgress.pendingProps;//null
+  const prevState = workInProgress.memoizedState;//null
+  const prevChildren = prevState !== null ? prevState.element : null;//null
   processUpdateQueue(
     workInProgress,
     updateQueue,
@@ -571,10 +577,10 @@ function updateHostRoot(current, workInProgress, renderExpirationTime) {
     null,
     renderExpirationTime,
   );
-  const nextState = workInProgress.memoizedState;
+  const nextState = workInProgress.memoizedState;//{element:element}
   // Caution: React DevTools currently depends on this property
   // being called "element".
-  const nextChildren = nextState.element;
+  const nextChildren = nextState.element;//element
   if (nextChildren === prevChildren) {
     // If the state is the same as before, that's a bailout because we had
     // no work that expires at this time.
@@ -585,7 +591,7 @@ function updateHostRoot(current, workInProgress, renderExpirationTime) {
       renderExpirationTime,
     );
   }
-  const root: FiberRoot = workInProgress.stateNode;
+  const root: FiberRoot = workInProgress.stateNode;//root._internalRoot
   if (
     (current === null || current.child === null) &&
     root.hydrate &&
@@ -617,8 +623,8 @@ function updateHostRoot(current, workInProgress, renderExpirationTime) {
     reconcileChildren(
       current,
       workInProgress,
-      nextChildren,
-      renderExpirationTime,
+      nextChildren,//element
+      renderExpirationTime,//Sync
     );
     resetHydrationState();
   }
@@ -632,12 +638,12 @@ function updateHostComponent(current, workInProgress, renderExpirationTime) {
     tryToClaimNextHydratableInstance(workInProgress);
   }
 
-  const type = workInProgress.type;
-  const nextProps = workInProgress.pendingProps;
-  const prevProps = current !== null ? current.memoizedProps : null;
+  const type = workInProgress.type;//null
+  const nextProps = workInProgress.pendingProps;//{className:'app',children:’div’},
+  const prevProps = current !== null ? current.memoizedProps : null;//null
 
-  let nextChildren = nextProps.children;
-  const isDirectTextChild = shouldSetTextContent(type, nextProps);
+  let nextChildren = nextProps.children;//'div'
+  const isDirectTextChild = shouldSetTextContent(type, nextProps);//true
 
   if (isDirectTextChild) {
     // We special case a direct text child of a host node. This is a common
@@ -666,10 +672,10 @@ function updateHostComponent(current, workInProgress, renderExpirationTime) {
   }
 
   reconcileChildren(
-    current,
-    workInProgress,
-    nextChildren,
-    renderExpirationTime,
+    current,//null
+    workInProgress,//child
+    nextChildren,//null
+    renderExpirationTime,//Sync
   );
   memoizeProps(workInProgress, nextProps);
   return workInProgress.child;
@@ -679,7 +685,7 @@ function updateHostText(current, workInProgress) {
   if (current === null) {
     tryToClaimNextHydratableInstance(workInProgress);
   }
-  const nextProps = workInProgress.pendingProps;
+  const nextProps = workInProgress.pendingProps;//"null"
   memoizeProps(workInProgress, nextProps);
   // Nothing to do here. This is terminal. We'll do the completion step
   // immediately after.
@@ -1232,16 +1238,17 @@ function memoizeState(workInProgress: Fiber, nextState: any) {
   // is handled by processUpdateQueue.
 }
 
+//3,null,work,Sync
 function  beginWork(
   current: Fiber | null,
   workInProgress: Fiber,
   renderExpirationTime: ExpirationTime,
 ): Fiber | null {
-  const updateExpirationTime = workInProgress.expirationTime;//root.current
+  const updateExpirationTime = workInProgress.expirationTime;//Sync 3.NoWork
 
   if (current !== null) {
-    const oldProps = current.memoizedProps;//root.current.memoizedProps
-    const newProps = workInProgress.pendingProps;//root.current.memoizedProps
+    const oldProps = current.memoizedProps;//null
+    const newProps = workInProgress.pendingProps;//null
     if (
       oldProps === newProps &&
       !hasLegacyContextChanged() &&
@@ -1363,12 +1370,14 @@ function  beginWork(
       workInProgress.memoizedProps = unresolvedProps;
       return child;
     }
+    //1
     case HostRoot:
       return updateHostRoot(current, workInProgress, renderExpirationTime);
+      //2
     case HostComponent:
       return updateHostComponent(current, workInProgress, renderExpirationTime);
     case HostText:
-      return updateHostText(current, workInProgress);
+      return updateHostText(current, workInProgress);//null,child
     case SuspenseComponent:
       return updateSuspenseComponent(
         current,

@@ -254,15 +254,15 @@ export function didExpireAtExpirationTime(
 }
 
 function findNextExpirationTimeToWorkOn(completedExpirationTime, root) {
-  const earliestSuspendedTime = root.earliestSuspendedTime;
-  const latestSuspendedTime = root.latestSuspendedTime;
-  const earliestPendingTime = root.earliestPendingTime;
-  const latestPingedTime = root.latestPingedTime;
+  const earliestSuspendedTime = root.earliestSuspendedTime;//NoWork
+  const latestSuspendedTime = root.latestSuspendedTime;//NoWork
+  const earliestPendingTime = root.earliestPendingTime;//Sync
+  const latestPingedTime = root.latestPingedTime;//延迟时间 NoWork
 
   // Work on the earliest pending time. Failing that, work on the latest
   // pinged time.
   let nextExpirationTimeToWorkOn =
-    earliestPendingTime !== NoWork ? earliestPendingTime : latestPingedTime;//root.latestSuspendedTime
+    earliestPendingTime !== NoWork ? earliestPendingTime : latestPingedTime;//Sync
 
   // If there is no pending or pinged work, check if there's suspended work
   // that's lower priority than what we just completed.
@@ -277,7 +277,7 @@ function findNextExpirationTimeToWorkOn(completedExpirationTime, root) {
     nextExpirationTimeToWorkOn = latestSuspendedTime;
   }
 
-  let expirationTime = nextExpirationTimeToWorkOn;
+  let expirationTime = nextExpirationTimeToWorkOn;//Sync
   if (
     expirationTime !== NoWork &&
     earliestSuspendedTime !== NoWork &&

@@ -102,11 +102,11 @@ if (__DEV__) {
 const isArray = Array.isArray;
 
 function coerceRef(
-  returnFiber: Fiber,
-  current: Fiber | null,
-  element: ReactElement,
+  returnFiber: Fiber,//nextUnitOfWork
+  current: Fiber | null,//null
+  element: ReactElement,//element
 ) {
-  let mixedRef = element.ref;
+  let mixedRef = element.ref;//null
   if (
     mixedRef !== null &&
     typeof mixedRef !== 'function' &&
@@ -1080,10 +1080,10 @@ function ChildReconciler(shouldTrackSideEffects) {
   }
 
   function reconcileSingleTextNode(
-    returnFiber: Fiber,
-    currentFirstChild: Fiber | null,
-    textContent: string,
-    expirationTime: ExpirationTime,
+    returnFiber: Fiber,//child
+    currentFirstChild: Fiber | null,//null
+    textContent: string,//"null"
+    expirationTime: ExpirationTime,//Sync
   ): Fiber {
     // There's no need to check for keys on text nodes since we don't have a
     // way to define them.
@@ -1097,11 +1097,11 @@ function ChildReconciler(shouldTrackSideEffects) {
     }
     // The existing first child is not a text node so we need to create one
     // and delete the existing ones.
-    deleteRemainingChildren(returnFiber, currentFirstChild);
+    deleteRemainingChildren(returnFiber, currentFirstChild);//child  null
     const created = createFiberFromText(
-      textContent,
-      returnFiber.mode,
-      expirationTime,
+      textContent,//"null"
+      returnFiber.mode,//NoContext
+      expirationTime,//Sync
     );
     created.return = returnFiber;
     return created;
@@ -1113,8 +1113,8 @@ function ChildReconciler(shouldTrackSideEffects) {
     element: ReactElement,
     expirationTime: ExpirationTime,
   ): Fiber {
-    const key = element.key;
-    let child = currentFirstChild;
+    const key = element.key;//null
+    let child = currentFirstChild;//null
     while (child !== null) {
       // TODO: If key === null and child.key === null, then this only applies to
       // the first item in the list.
@@ -1160,9 +1160,9 @@ function ChildReconciler(shouldTrackSideEffects) {
       return created;
     } else {
       const created = createFiberFromElement(
-        element,
-        returnFiber.mode,
-        expirationTime,
+        element,//element
+        returnFiber.mode,//NoContext:0b000，  
+        expirationTime,//Sync
       );
       created.ref = coerceRef(returnFiber, currentFirstChild, element);
       created.return = returnFiber;
@@ -1217,11 +1217,11 @@ function ChildReconciler(shouldTrackSideEffects) {
   // This API will tag the children with the side-effect of the reconciliation
   // itself. They will be added to the side-effect list as we pass through the
   // children and the parent.
-  function reconcileChildFibers(
+  function reconcileChildFibers(//2,child,null,null,Sync
     returnFiber: Fiber,
-    currentFirstChild: Fiber | null,
-    newChild: any,
-    expirationTime: ExpirationTime,
+    currentFirstChild: Fiber | null,//1.null
+    newChild: any,//1.element
+    expirationTime: ExpirationTime,//1.Sync
   ): Fiber | null {
     // This function is not recursive.
     // If the top level item is an array, we treat it as a set of children,
@@ -1235,13 +1235,13 @@ function ChildReconciler(shouldTrackSideEffects) {
       typeof newChild === 'object' &&
       newChild !== null &&
       newChild.type === REACT_FRAGMENT_TYPE &&
-      newChild.key === null;
+      newChild.key === null;//false
     if (isUnkeyedTopLevelFragment) {
       newChild = newChild.props.children;
     }
 
     // Handle object types
-    const isObject = typeof newChild === 'object' && newChild !== null;
+    const isObject = typeof newChild === 'object' && newChild !== null;//1.true 2.false
 
     if (isObject) {
       switch (newChild.$$typeof) {
@@ -1269,10 +1269,10 @@ function ChildReconciler(shouldTrackSideEffects) {
     if (typeof newChild === 'string' || typeof newChild === 'number') {
       return placeSingleChild(
         reconcileSingleTextNode(
-          returnFiber,
-          currentFirstChild,
-          '' + newChild,
-          expirationTime,
+          returnFiber,//child
+          currentFirstChild,//null
+          '' + newChild,//null
+          expirationTime,//Sync
         ),
       );
     }

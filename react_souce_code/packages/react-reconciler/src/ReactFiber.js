@@ -209,15 +209,6 @@ if (__DEV__) {
   debugCounter = 1;
 }
 
-function FiberNode(
-  tag: WorkTag,
-  pendingProps: mixed,
-  key: null | string,
-  mode: TypeOfMode,
-) {
-  // Instance
-  this.tag = tag;
-  this.key = key;
   this.type = null;
   this.stateNode = null;
 
@@ -321,7 +312,7 @@ export function createWorkInProgress(
   pendingProps: any,
   expirationTime: ExpirationTime,
 ): Fiber {
-  let workInProgress = current.alternate;
+  let workInProgress = current.alternate;//null
   if (workInProgress === null) {
     // We use a double buffering pooling technique because we know that we'll
     // only ever need at most two versions of a tree. We pool the "other" unused
@@ -329,11 +320,11 @@ export function createWorkInProgress(
     // extra objects for things that are never updated. It also allow us to
     // reclaim the extra memory if needed.
     workInProgress = createFiber(
-      current.tag,
-      pendingProps,
-      current.key,
-      current.mode,
-    );
+      current.tag,//HostRoot:5,
+      pendingProps,//null
+      current.key,//null
+      current.mode,//NoContext:0b000，
+    );//
     workInProgress.type = current.type;
     workInProgress.stateNode = current.stateNode;
 
@@ -367,7 +358,41 @@ export function createWorkInProgress(
       workInProgress.actualStartTime = -1;
     }
   }
+    /*
+     this.tag = HostRoot:5;
+     this.key = null;
+     this.type = null;
+     this.stateNode = root._innertalRoot;
 
+     // Fiber
+     this.return = null;
+     this.child = null;
+     this.sibling = null;
+     this.index = 0;
+
+     this.ref = null;
+
+     this.pendingProps = null;
+     this.memoizedProps = null;
+     this.updateQueue = null;
+     this.memoizedState = null;
+     this.firstContextDependency = null;
+
+     this.mode = NoContext:0b000;
+
+     // Effects
+     this.effectTag = NoEffect;
+     this.nextEffect = null;
+
+     this.firstEffect = null;
+     this.lastEffect = null;
+
+     this.expirationTime = NoWork;
+     this.childExpirationTime = NoWork;
+
+     this.alternate = root._innertalRoot.current;
+       *
+       * */
   workInProgress.childExpirationTime = current.childExpirationTime;
   workInProgress.expirationTime = current.expirationTime;
 
@@ -415,9 +440,9 @@ export function createFiberFromElement(
   }
 
   let fiber;
-  const type = element.type;
-  const key = element.key;
-  const pendingProps = element.props;
+  const type = element.type;//'div'
+  const key = element.key;//null
+  const pendingProps = element.props;//{className:'app',children:’div’}
 
   let fiberTag;
   if (typeof type === 'function') {
@@ -500,7 +525,7 @@ export function createFiberFromElement(
     }
   }
 
-  fiber = createFiber(fiberTag, pendingProps, key, mode);
+  fiber = createFiber(fiberTag, pendingProps, key, mode);//'div',{className:'app',children:’div’},null,NoContext:0b000
   fiber.type = type;
   fiber.expirationTime = expirationTime;
 
@@ -553,8 +578,8 @@ export function createFiberFromText(
   mode: TypeOfMode,
   expirationTime: ExpirationTime,
 ): Fiber {
-  const fiber = createFiber(HostText, content, null, mode);
-  fiber.expirationTime = expirationTime;
+  const fiber = createFiber(HostText, content, null, mode);//HostText,"null",null,NoContext
+  fiber.expirationTime = expirationTime;//Sync
   return fiber;
 }
 

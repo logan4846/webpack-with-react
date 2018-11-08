@@ -338,9 +338,9 @@ function getStateFromUpdate<State>(
   workInProgress: Fiber,
   queue: UpdateQueue<State>,
   update: Update<State>,
-  prevState: State,
-  nextProps: any,
-  instance: any,
+  prevState: State,//null
+  nextProps: any,//null
+  instance: any,//null
 ): any {
   switch (update.tag) {
     case ReplaceState: {
@@ -367,7 +367,7 @@ function getStateFromUpdate<State>(
     }
     // Intentional fallthrough
     case UpdateState: {
-      const payload = update.payload;
+      const payload = update.payload;//element
       let partialState;
       if (typeof payload === 'function') {
         // Updater function
@@ -383,7 +383,7 @@ function getStateFromUpdate<State>(
         partialState = payload.call(instance, prevState, nextProps);
       } else {
         // Partial state object
-        partialState = payload;
+        partialState = payload;//element
       }
       if (partialState === null || partialState === undefined) {
         // Null and undefined are treated as no-ops.
@@ -416,15 +416,15 @@ export function processUpdateQueue<State>(
   }
 
   // These values may change as we process the queue.
-  let newBaseState = queue.baseState;
+  let newBaseState = queue.baseState;//null
   let newFirstUpdate = null;
   let newExpirationTime = NoWork;
 
   // Iterate through the list of updates to compute the result.
-  let update = queue.firstUpdate;
-  let resultState = newBaseState;
+  let update = queue.firstUpdate;//update
+  let resultState = newBaseState;//null
   while (update !== null) {
-    const updateExpirationTime = update.expirationTime;
+    const updateExpirationTime = update.expirationTime;//Sync
     if (updateExpirationTime > renderExpirationTime) {
       // This update does not have sufficient priority. Skip it.
       if (newFirstUpdate === null) {
@@ -450,13 +450,13 @@ export function processUpdateQueue<State>(
         workInProgress,
         queue,
         update,
-        resultState,
-        props,
-        instance,
-      );
-      const callback = update.callback;
+        resultState,//null
+        props,//null
+        instance,//null
+      );//{element:element}
+      const callback = update.callback;//work._onCommit
       if (callback !== null) {
-        workInProgress.effectTag |= Callback;
+        workInProgress.effectTag |= Callback;//0      NoEffect: 0b00000000000
         // Set this to null, in case it was mutated during an aborted render.
         update.nextEffect = null;
         if (queue.lastEffect === null) {
@@ -473,7 +473,7 @@ export function processUpdateQueue<State>(
 
   // Separately, iterate though the list of captured updates.
   let newFirstCapturedUpdate = null;
-  update = queue.firstCapturedUpdate;
+  update = queue.firstCapturedUpdate;//null
   while (update !== null) {
     const updateExpirationTime = update.expirationTime;
     if (updateExpirationTime > renderExpirationTime) {
@@ -534,12 +534,12 @@ export function processUpdateQueue<State>(
   if (newFirstUpdate === null && newFirstCapturedUpdate === null) {
     // We processed every update, without skipping. That means the new base
     // state is the same as the result state.
-    newBaseState = resultState;
+    newBaseState = resultState;//element
   }
 
-  queue.baseState = newBaseState;
-  queue.firstUpdate = newFirstUpdate;
-  queue.firstCapturedUpdate = newFirstCapturedUpdate;
+  queue.baseState = newBaseState;//element
+  queue.firstUpdate = newFirstUpdate;//null
+  queue.firstCapturedUpdate = newFirstCapturedUpdate;//null
 
   // Set the remaining expiration time to be whatever is remaining in the queue.
   // This should be fine because the only two other things that contribute to

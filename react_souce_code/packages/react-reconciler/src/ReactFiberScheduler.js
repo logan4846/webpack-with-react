@@ -535,7 +535,7 @@ function commitRoot(root: FiberRoot, finishedWork: Fiber): void {
       'related to the return field. This error is likely caused by a bug ' +
       'in React. Please file an issue.',
   );
-  const committedExpirationTime = root.pendingCommitExpirationTime;
+  const committedExpirationTime = root.pendingCommitExpirationTime;//Sync
   invariant(
     committedExpirationTime !== NoWork,
     'Cannot commit an incomplete root. This error is likely caused by a ' +
@@ -546,14 +546,14 @@ function commitRoot(root: FiberRoot, finishedWork: Fiber): void {
   // Update the pending priority levels to account for the work that we are
   // about to commit. This needs to happen before calling the lifecycles, since
   // they may schedule additional updates.
-  const updateExpirationTimeBeforeCommit = finishedWork.expirationTime;
-  const childExpirationTimeBeforeCommit = finishedWork.childExpirationTime;
+  const updateExpirationTimeBeforeCommit = finishedWork.expirationTime;//NoWork
+  const childExpirationTimeBeforeCommit = finishedWork.childExpirationTime;//NoWork
   const earliestRemainingTimeBeforeCommit =
     updateExpirationTimeBeforeCommit === NoWork ||
     (childExpirationTimeBeforeCommit !== NoWork &&
       childExpirationTimeBeforeCommit < updateExpirationTimeBeforeCommit)
       ? childExpirationTimeBeforeCommit
-      : updateExpirationTimeBeforeCommit;
+      : updateExpirationTimeBeforeCommit;//NoWork
   markCommittedPriorityLevels(root, earliestRemainingTimeBeforeCommit);
 
   let prevInteractions: Set<Interaction> = (null: any);
@@ -1062,7 +1062,7 @@ function performUnitOfWork(workInProgress: Fiber): Fiber | null {
   // Ideally nothing should rely on this, but relying on it here
   // means that we don't need an additional field on the work in
   // progress.
-  const current = workInProgress.alternate;
+  const current = workInProgress.alternate;//null
 
   // See if beginning this work spawns more work.
   startWorkTimer(workInProgress);
@@ -1089,8 +1089,8 @@ function performUnitOfWork(workInProgress: Fiber): Fiber | null {
       // Record the render duration assuming we didn't bailout (or error).
       stopProfilerTimerIfRunningAndRecordDelta(workInProgress, true);
     }
-  } else {
-    next = beginWork(current, workInProgress, nextRenderExpirationTime);
+  } else {//3,null,work,Sync
+    next = beginWork(current, workInProgress, nextRenderExpirationTime); //nextUnitOfWork.child
   }
 
   if (__DEV__) {
@@ -1121,7 +1121,7 @@ function workLoop(isYieldy) {
   if (!isYieldy) {
     // Flush work without yielding
     while (nextUnitOfWork !== null) {
-      nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
+      nextUnitOfWork = performUnitOfWork(nextUnitOfWork);//xxx.child
     }
   } else {
     // Flush asynchronous work until the deadline runs out of time.
@@ -1144,7 +1144,7 @@ function renderRoot(
   isWorking = true;
   ReactCurrentOwner.currentDispatcher = Dispatcher;
 
-  const expirationTime = root.nextExpirationTimeToWorkOn;//noWork
+  const expirationTime = root.nextExpirationTimeToWorkOn;//Sync
 
   // Check if we're starting from a fresh stack, or if we're resuming from
   // previously yielded work.
@@ -1177,7 +1177,7 @@ function renderRoot(
             );
           }
         },
-      );
+      ) ;
 
       // Store the current set of interactions on the FiberRoot for a few reasons:
       // We can re-use it in hot functions like renderRoot() without having to recalculate it.
@@ -1319,7 +1319,7 @@ function renderRoot(
   // We completed the whole tree.
   const didCompleteRoot = true;
   stopWorkLoopTimer(interruptedBy, didCompleteRoot);
-  const rootWorkInProgress = root.current.alternate;
+  const rootWorkInProgress = root.current.alternate;//nextUnitOfWork
   invariant(
     rootWorkInProgress !== null,
     'Finished root should have a work-in-progress. This error is likely ' +
@@ -1412,7 +1412,7 @@ function renderRoot(
   }
 
   // Ready to commit.
-  onComplete(root, rootWorkInProgress, expirationTime);
+    onComplete(root, rootWorkInProgress, expirationTime);//root ,nextUnitOfWork,Sync
 }
 
 function dispatch(
@@ -1710,7 +1710,7 @@ function scheduleWorkToRoot(fiber: Fiber, expirationTime): FiberRoot | null {
 }
 
 function scheduleWork(fiber: Fiber, expirationTime: ExpirationTime) {
-  const root = scheduleWorkToRoot(fiber, expirationTime);
+  const root = scheduleWorkToRoot(fiber, expirationTime);//root
   if (root === null) {
     return;
   }
@@ -2013,10 +2013,10 @@ function findHighestPriorityRoot() {
   let highestPriorityWork = NoWork;
   let highestPriorityRoot = null;
   if (lastScheduledRoot !== null) {
-    let previousScheduledRoot = lastScheduledRoot;
-    let root = firstScheduledRoot;
+    let previousScheduledRoot = lastScheduledRoot;//root
+    let root = firstScheduledRoot;//root
     while (root !== null) {
-      const remainingExpirationTime = root.expirationTime;
+      const remainingExpirationTime = root.expirationTime;//Sync
       if (remainingExpirationTime === NoWork) {
         // This root no longer has work. Remove it from the scheduler.
 
@@ -2056,8 +2056,8 @@ function findHighestPriorityRoot() {
           remainingExpirationTime < highestPriorityWork
         ) {
           // Update the priority, if it's higher
-          highestPriorityWork = remainingExpirationTime;
-          highestPriorityRoot = root;
+          highestPriorityWork = remainingExpirationTime;//Sync
+          highestPriorityRoot = root;//root
         }
         if (root === lastScheduledRoot) {
           break;
@@ -2073,8 +2073,8 @@ function findHighestPriorityRoot() {
     }
   }
 
-  nextFlushedRoot = highestPriorityRoot;
-  nextFlushedExpirationTime = highestPriorityWork;
+  nextFlushedRoot = highestPriorityRoot;//root
+  nextFlushedExpirationTime = highestPriorityWork;//Sync
 }
 
 function performAsyncWork(dl) {
@@ -2102,7 +2102,7 @@ function performSyncWork() {
 }
 
 function performWork(minExpirationTime: ExpirationTime, dl: Deadline | null) {
-  deadline = dl;
+  deadline = dl;//null
 
   // Keep working on roots until there's no more work, or until we reach
   // the deadline.
@@ -2233,7 +2233,7 @@ function performWorkOnRoot(
     // may want to perform some work without yielding, but also without
     // requiring the root to complete (by triggering placeholders).
 
-    let finishedWork = root.finishedWork;
+    let finishedWork = root.finishedWork;//null
     if (finishedWork !== null) {
       // This root is already complete. We can commit it.
       completeRoot(root, finishedWork, expirationTime);
@@ -2241,15 +2241,15 @@ function performWorkOnRoot(
       root.finishedWork = null;
       // If this root previously suspended, clear its existing timeout, since
       // we're about to try rendering again.
-      const timeoutHandle = root.timeoutHandle;
+      const timeoutHandle = root.timeoutHandle;//noTimeout
       if (timeoutHandle !== noTimeout) {
         root.timeoutHandle = noTimeout;
         // $FlowFixMe Complains noTimeout is not a TimeoutID, despite the check above
         cancelTimeout(timeoutHandle);
       }
       const isYieldy = false;
-      renderRoot(root, isYieldy, isExpired);
-      finishedWork = root.finishedWork;
+      renderRoot(root, isYieldy, isExpired);//root,false,true
+      finishedWork = root.finishedWork;//
       if (finishedWork !== null) {
         // We've completed the root. Commit it.
         completeRoot(root, finishedWork, expirationTime);
@@ -2257,7 +2257,7 @@ function performWorkOnRoot(
     }
   } else {
     // Flush async work.
-    let finishedWork = root.finishedWork;
+    let finishedWork = root.finishedWork;//null
     if (finishedWork !== null) {
       // This root is already complete. We can commit it.
       completeRoot(root, finishedWork, expirationTime);
@@ -2298,7 +2298,7 @@ function completeRoot(
   expirationTime: ExpirationTime,
 ): void {
   // Check if there's a batch that matches this expiration time.
-  const firstBatch = root.firstBatch;
+  const firstBatch = root.firstBatch;//null
   if (firstBatch !== null && firstBatch._expirationTime <= expirationTime) {
     if (completedBatches === null) {
       completedBatches = [firstBatch];
