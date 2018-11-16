@@ -126,10 +126,10 @@ if (__DEV__) {
     renderExpirationTime,//Sync
 * */
 export function reconcileChildren(
-  current: Fiber | null,//1     2.null
-  workInProgress: Fiber,//1     2.child
-  nextChildren: any,//1.element 2.null
-  renderExpirationTime: ExpirationTime,//Sync
+  current: Fiber | null,               //1.current         2.null
+  workInProgress: Fiber,               //1.nextUnitOfWork  2.child
+  nextChildren: any,                   //1.element         2.null
+  renderExpirationTime: ExpirationTime,//1.Sync            2.Sync
 ) {
   if (current === null) {
     // If this is a fresh new component that hasn't been rendered yet, we
@@ -150,11 +150,11 @@ export function reconcileChildren(
     // If we had any progressed work already, that is invalid at this point so
     // let's throw it out.
     workInProgress.child = reconcileChildFibers(
-      workInProgress,
-      current.child,//null
-      nextChildren,//element
-      renderExpirationTime,//Sync
-    );
+          workInProgress,//1.nextUnitOfWork
+          current.child,//1.null
+          nextChildren,//1.element
+          renderExpirationTime,//1.Sync
+      );
   }
 }
 
@@ -638,14 +638,14 @@ function updateHostComponent(current, workInProgress, renderExpirationTime) {
     tryToClaimNextHydratableInstance(workInProgress);
   }
 
-  const type = workInProgress.type;//null
-  const nextProps = workInProgress.pendingProps;//{className:'app',children:’div’},
+  const type = workInProgress.type;//'div'
+  const nextProps = workInProgress.pendingProps;//{className:'app',children:’content’},
   const prevProps = current !== null ? current.memoizedProps : null;//null
 
-  let nextChildren = nextProps.children;//'div'
+  let nextChildren = nextProps.children;//'content'
   const isDirectTextChild = shouldSetTextContent(type, nextProps);//true
 
-  if (isDirectTextChild) {
+    if (isDirectTextChild) {
     // We special case a direct text child of a host node. This is a common
     // case. We won't handle it as a reified child. We will instead handle
     // this in the host environment that also have access to this prop. That
@@ -657,7 +657,7 @@ function updateHostComponent(current, workInProgress, renderExpirationTime) {
     workInProgress.effectTag |= ContentReset;
   }
 
-  markRef(current, workInProgress);
+  markRef(current, workInProgress);//null child
 
   // Check the host config to see if the children are offscreen/hidden.
   if (
@@ -677,7 +677,7 @@ function updateHostComponent(current, workInProgress, renderExpirationTime) {
     nextChildren,//null
     renderExpirationTime,//Sync
   );
-  memoizeProps(workInProgress, nextProps);
+  memoizeProps(workInProgress, nextProps);//child,{className:'app',children:’content’},
   return workInProgress.child;
 }
 
@@ -1238,13 +1238,14 @@ function memoizeState(workInProgress: Fiber, nextState: any) {
   // is handled by processUpdateQueue.
 }
 
-//3,null,work,Sync
+
 function  beginWork(
   current: Fiber | null,
   workInProgress: Fiber,
   renderExpirationTime: ExpirationTime,
 ): Fiber | null {
-  const updateExpirationTime = workInProgress.expirationTime;//Sync 3.NoWork
+  //1.current,nextUnitofWork,Sync
+  const updateExpirationTime = workInProgress.expirationTime;//1.Sync 2.Sync 3.Sync
 
   if (current !== null) {
     const oldProps = current.memoizedProps;//null

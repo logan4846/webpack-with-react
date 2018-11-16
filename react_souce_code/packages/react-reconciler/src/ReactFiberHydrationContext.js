@@ -311,7 +311,7 @@ function popToNextHostParent(fiber: Fiber): void {
 function popHydrationState(fiber: Fiber): boolean {
   if (!supportsHydration) {
     return false;
-  }
+  }//supportsHydration = true
   if (fiber !== hydrationParentFiber) {
     // We're deeper than the current hydration context, inside an inserted
     // tree.

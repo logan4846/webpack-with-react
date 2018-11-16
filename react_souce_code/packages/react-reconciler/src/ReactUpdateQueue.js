@@ -367,7 +367,7 @@ function getStateFromUpdate<State>(
     }
     // Intentional fallthrough
     case UpdateState: {
-      const payload = update.payload;//element
+      const payload = update.payload;//{element:element}
       let partialState;
       if (typeof payload === 'function') {
         // Updater function
@@ -383,7 +383,7 @@ function getStateFromUpdate<State>(
         partialState = payload.call(instance, prevState, nextProps);
       } else {
         // Partial state object
-        partialState = payload;//element
+        partialState = payload;//{element:element}
       }
       if (partialState === null || partialState === undefined) {
         // Null and undefined are treated as no-ops.
@@ -456,7 +456,7 @@ export function processUpdateQueue<State>(
       );//{element:element}
       const callback = update.callback;//work._onCommit
       if (callback !== null) {
-        workInProgress.effectTag |= Callback;//0      NoEffect: 0b00000000000
+        workInProgress.effectTag |= Callback;//0      Callback: 0b00000100000
         // Set this to null, in case it was mutated during an aborted render.
         update.nextEffect = null;
         if (queue.lastEffect === null) {

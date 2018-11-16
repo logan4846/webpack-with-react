@@ -525,7 +525,7 @@ export function createFiberFromElement(
     }
   }
 
-  fiber = createFiber(fiberTag, pendingProps, key, mode);//'div',{className:'app',children:’div’},null,NoContext:0b000
+  fiber = createFiber(fiberTag, pendingProps, key, mode);//HostComponent,{className:'app',children:’content’},null,NoContext:0b000
   fiber.type = type;
   fiber.expirationTime = expirationTime;
 
@@ -581,6 +581,7 @@ export function createFiberFromText(
   const fiber = createFiber(HostText, content, null, mode);//HostText,"null",null,NoContext
   fiber.expirationTime = expirationTime;//Sync
   return fiber;
+
 }
 
 export function createFiberFromHostInstanceForDeletion(): Fiber {

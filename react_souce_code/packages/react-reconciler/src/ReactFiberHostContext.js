@@ -57,7 +57,7 @@ function pushHostContainer(fiber: Fiber, nextRootInstance: Container) {
   // whether getRootHostContext() throws somewhere in renderer code or not.
   // So we push an empty value first. This lets us safely unwind on errors.
   push(contextStackCursor, NO_CONTEXT, fiber);
-  const nextRootContext = getRootHostContext(nextRootInstance);//getRootHostContext(Container);
+  const nextRootContext = getRootHostContext(nextRootInstance);//HTML_NAMESPACE
   // Now that we know this function doesn't throw, replace it.
   pop(contextStackCursor, fiber);
   push(contextStackCursor, nextRootContext, fiber);
@@ -77,9 +77,9 @@ function getHostContext(): HostContext {
 function pushHostContext(fiber: Fiber): void {
   const rootInstance: Container = requiredContext(
     rootInstanceStackCursor.current,
-  );
-  const context: HostContext = requiredContext(contextStackCursor.current);
-  const nextContext = getChildHostContext(context, fiber.type, rootInstance);
+  );//1.Container
+  const context: HostContext = requiredContext(contextStackCursor.current);//HTML_NAMESPACE
+  const nextContext = getChildHostContext(context, fiber.type, rootInstance);//HTML_NAMESPACE,'div',Container  return  HTML_NAMESPACE
 
   // Don't push this Fiber's context unless it's unique.
   if (context === nextContext) {

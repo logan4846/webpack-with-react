@@ -42,7 +42,7 @@ function isInDocument(node) {
 
 function getActiveElementDeep() {
   let win = window;
-  let element = getActiveElement();
+  let element = getActiveElement(); //return doc.activeElement || doc.body;
   while (element instanceof win.HTMLIFrameElement) {
     // Accessing the contentDocument of a HTMLIframeElement can cause the browser
     // to throw, e.g. if it has a cross-origin src attribute
@@ -69,7 +69,7 @@ function getActiveElementDeep() {
  * and `selectionEnd` rows.
  */
 export function hasSelectionCapabilities(elem) {
-  const nodeName = elem && elem.nodeName && elem.nodeName.toLowerCase();
+  const nodeName = elem && elem.nodeName && elem.nodeName.toLowerCase();//body
   return (
     nodeName &&
     ((nodeName === 'input' &&
@@ -84,12 +84,12 @@ export function hasSelectionCapabilities(elem) {
 }
 
 export function getSelectionInformation() {
-  const focusedElem = getActiveElementDeep();
+  const focusedElem = getActiveElementDeep();//body
   return {
-    focusedElem: focusedElem,
+    focusedElem: focusedElem,//body
     selectionRange: hasSelectionCapabilities(focusedElem)
       ? getSelection(focusedElem)
-      : null,
+      : null,//false
   };
 }
 
@@ -98,10 +98,10 @@ export function getSelectionInformation() {
  * restore it. This is useful when performing operations that could remove dom
  * nodes and place them back in, resulting in focus being lost.
  */
-export function restoreSelection(priorSelectionInformation) {
-  const curFocusedElem = getActiveElementDeep();
-  const priorFocusedElem = priorSelectionInformation.focusedElem;
-  const priorSelectionRange = priorSelectionInformation.selectionRange;
+export function restoreSelection(priorSelectionInformation) {//{focusedElem: body,selectionRange: false};
+  const curFocusedElem = getActiveElementDeep();//body
+  const priorFocusedElem = priorSelectionInformation.focusedElem;//body
+  const priorSelectionRange = priorSelectionInformation.selectionRange;//false
   if (curFocusedElem !== priorFocusedElem && isInDocument(priorFocusedElem)) {
     if (
       priorSelectionRange !== null &&

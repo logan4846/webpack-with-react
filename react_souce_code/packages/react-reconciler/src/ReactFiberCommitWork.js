@@ -554,7 +554,7 @@ function commitContainer(finishedWork: Fiber) {
 }
 
 function getHostParentFiber(fiber: Fiber): Fiber {
-  let parent = fiber.return;
+  let parent = fiber.return;//nextUnitOfWork
   while (parent !== null) {
     if (isHostParent(parent)) {
       return parent;
@@ -624,7 +624,7 @@ function commitPlacement(finishedWork: Fiber): void {
   }
 
   // Recursively insert all host nodes into the parent.
-  const parentFiber = getHostParentFiber(finishedWork);
+  const parentFiber = getHostParentFiber(finishedWork);//nextUnitOfWork
 
   // Note: these two variables *must* always be updated together.
   let parent;
@@ -636,7 +636,7 @@ function commitPlacement(finishedWork: Fiber): void {
       isContainer = false;
       break;
     case HostRoot:
-      parent = parentFiber.stateNode.containerInfo;
+      parent = parentFiber.stateNode.containerInfo;//Container
       isContainer = true;
       break;
     case HostPortal:
@@ -657,10 +657,10 @@ function commitPlacement(finishedWork: Fiber): void {
     parentFiber.effectTag &= ~ContentReset;
   }
 
-  const before = getHostSibling(finishedWork);
+  const before = getHostSibling(finishedWork);//null
   // We only have the top Fiber that was inserted but we need recurse down its
   // children to find all the terminal nodes.
-  let node: Fiber = finishedWork;
+  let node: Fiber = finishedWork;//child
   while (true) {
     if (node.tag === HostComponent || node.tag === HostText) {
       if (before) {

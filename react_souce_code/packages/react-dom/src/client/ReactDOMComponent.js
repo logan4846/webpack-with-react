@@ -362,11 +362,11 @@ export function createElement(
   // tags get no namespace.
   const ownerDocument: Document = getOwnerDocumentFromRootContainer(
     rootContainerElement,
-  );
+  );//返回document
   let domElement: Element;
-  let namespaceURI = parentNamespace;
+  let namespaceURI = parentNamespace;//HTML_NAMESPACE
   if (namespaceURI === HTML_NAMESPACE) {
-    namespaceURI = getIntrinsicNamespace(type);
+    namespaceURI = getIntrinsicNamespace(type);//HTML_NAMESPACE
   }
   if (namespaceURI === HTML_NAMESPACE) {
     if (__DEV__) {
@@ -397,7 +397,7 @@ export function createElement(
       // Separate else branch instead of using `props.is || undefined` above because of a Firefox bug.
       // See discussion in https://github.com/facebook/react/pull/6896
       // and discussion in https://bugzilla.mozilla.org/show_bug.cgi?id=1276240
-      domElement = ownerDocument.createElement(type);
+      domElement = ownerDocument.createElement(type);//创建div
       // Normally attributes are assigned in `setInitialDOMProperties`, however the `multiple`
       // attribute on `select`s needs to be added before `option`s are inserted. This prevents
       // a bug where the `select` does not scroll to the correct option because singular
@@ -445,12 +445,12 @@ export function createTextNode(
 }
 
 export function setInitialProperties(
-  domElement: Element,
-  tag: string,
-  rawProps: Object,
-  rootContainerElement: Element | Document,
+  domElement: Element,//domElement
+  tag: string,        //'div'
+  rawProps: Object,   // {className:'app',children:’content’},
+  rootContainerElement: Element | Document, //Container 
 ): void {
-  const isCustomComponentTag = isCustomComponent(tag, rawProps);
+  const isCustomComponentTag = isCustomComponent(tag, rawProps);//false
   if (__DEV__) {
     validatePropertiesInDevelopment(tag, rawProps);
     if (
@@ -536,14 +536,14 @@ export function setInitialProperties(
       props = rawProps;
   }
 
-  assertValidProps(tag, props);
+  assertValidProps(tag, props);//'div',{className:'app',children:’content’},
 
   setInitialDOMProperties(
-    tag,
-    domElement,
-    rootContainerElement,
-    props,
-    isCustomComponentTag,
+    tag, // 'div'
+    domElement,//domElement
+    rootContainerElement,//container
+    props,//{className:'app',children:’content’},
+    isCustomComponentTag,//false
   );
 
   switch (tag) {

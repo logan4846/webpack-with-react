@@ -37,6 +37,8 @@ import {
 } from '../shared/HTMLNodeType';
 
 import type {DOMContainer} from './ReactDOM';
+import {hasSelectionCapabilities} from "./ReactInputSelection";
+import {getSelection} from "./ReactInputSelection";
 
 export type Type = string;
 export type Props = {
@@ -127,6 +129,7 @@ export function getChildHostContext(
   type: string,
   rootContainerInstance: Container,
 ): HostContext {
+    //nextUnitOfWork,'div',Container
   if (__DEV__) {
     const parentHostContextDev = ((parentHostContext: any): HostContextDev);
     const namespace = getChildNamespace(parentHostContextDev.namespace, type);
@@ -145,13 +148,13 @@ export function getPublicInstance(instance: Instance): * {
 }
 
 export function prepareForCommit(containerInfo: Container): void {
-  eventsEnabled = ReactBrowserEventEmitter.isEnabled();
-  selectionInformation = ReactInputSelection.getSelectionInformation();
+  eventsEnabled = ReactBrowserEventEmitter.isEnabled();//true
+  selectionInformation = ReactInputSelection.getSelectionInformation();//{focusedElem: body,selectionRange: false};
   ReactBrowserEventEmitter.setEnabled(false);
 }
 
 export function resetAfterCommit(containerInfo: Container): void {
-  ReactInputSelection.restoreSelection(selectionInformation);
+  ReactInputSelection.restoreSelection(selectionInformation);//{focusedElem: body,selectionRange: false};
   selectionInformation = null;
   ReactBrowserEventEmitter.setEnabled(eventsEnabled);
   eventsEnabled = null;
@@ -182,7 +185,7 @@ export function createInstance(
     }
     parentNamespace = hostContextDev.namespace;
   } else {
-    parentNamespace = ((hostContext: any): HostContextProd);
+    parentNamespace = ((hostContext: any): HostContextProd);//HTML_NAMESPACE
   }
   const domElement: Instance = createElement(
     type,
@@ -210,7 +213,7 @@ export function finalizeInitialChildren(
   hostContext: HostContext,
 ): boolean {
   setInitialProperties(domElement, type, props, rootContainerInstance);
-  return shouldAutoFocusHostComponent(type, props);
+  return shouldAutoFocusHostComponent(type, props);//'div',{className:'app',children:’content’},
 }
 
 export function prepareUpdate(
@@ -363,7 +366,7 @@ export function appendChildToContainer(
   // This is why we ensure that non React root containers have inline onclick
   // defined.
   // https://github.com/facebook/react/issues/11918
-  const reactRootContainer = container._reactRootContainer;
+  const reactRootContainer = container._reactRootContainer;//root
   if (
     (reactRootContainer === null || reactRootContainer === undefined) &&
     parentNode.onclick === null

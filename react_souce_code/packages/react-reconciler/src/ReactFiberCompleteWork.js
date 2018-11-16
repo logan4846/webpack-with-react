@@ -87,7 +87,7 @@ function markRef(workInProgress: Fiber) {
 function appendAllChildren(parent: Instance, workInProgress: Fiber) {
   // We only have the top Fiber that was created but we need recurse down its
   // children to find all the terminal nodes.
-  let node = workInProgress.child;
+  let node = workInProgress.child;//null
   while (node !== null) {
     if (node.tag === HostComponent || node.tag === HostText) {
       appendInitialChild(parent, node.stateNode);
@@ -213,22 +213,22 @@ if (supportsMutation) {
   };
   updateHostContainer = function(workInProgress: Fiber) {
     const portalOrRoot: {
-      containerInfo: Container,
-      pendingChildren: ChildSet,
+      containerInfo: Container,//Container
+      pendingChildren: ChildSet,//null
     } =
       workInProgress.stateNode;
-    const childrenUnchanged = workInProgress.firstEffect === null;
+    const childrenUnchanged = workInProgress.firstEffect === null;//false
     if (childrenUnchanged) {
       // No changes, just reuse the existing instance.
     } else {
-      const container = portalOrRoot.containerInfo;
-      let newChildSet = createContainerChildSet(container);
+      const container = portalOrRoot.containerInfo;//Container
+      let newChildSet = createContainerChildSet(container);//[]
       // If children might have changed, we have to add them all to the set.
-      appendAllChildrenToContainer(newChildSet, workInProgress);
-      portalOrRoot.pendingChildren = newChildSet;
+      appendAllChildrenToContainer(newChildSet, workInProgress);//newChildSet.push(nextUnitOfWork)
+      portalOrRoot.pendingChildren = newChildSet;//pendChildren = newChildSet
       // Schedule an update on the container to swap out the container.
       markUpdate(workInProgress);
-      finalizeContainerChildren(container, newChildSet);
+      finalizeContainerChildren(container, newChildSet);//确定container的子节点
     }
   };
   updateHostComponent = function(
@@ -346,11 +346,11 @@ if (supportsMutation) {
 }
 
 function completeWork(
-  current: Fiber | null,
-  workInProgress: Fiber,
-  renderExpirationTime: ExpirationTime,
+  current: Fiber | null,                //null    current
+  workInProgress: Fiber,                //child   nextUnitOfWork
+  renderExpirationTime: ExpirationTime, //Sync    Sync
 ): Fiber | null {
-  const newProps = workInProgress.pendingProps;
+  const newProps = workInProgress.pendingProps;//1.{className:'app',children:’content’}, 2.null
 
   switch (workInProgress.tag) {
     case FunctionComponent:
@@ -373,7 +373,7 @@ function completeWork(
     case HostRoot: {
       popHostContainer(workInProgress);
       popTopLevelLegacyContextObject(workInProgress);
-      const fiberRoot = (workInProgress.stateNode: FiberRoot);
+      const fiberRoot = (workInProgress.stateNode: FiberRoot);//root._internalRoot
       if (fiberRoot.pendingContext) {
         fiberRoot.context = fiberRoot.pendingContext;
         fiberRoot.pendingContext = null;
@@ -390,9 +390,9 @@ function completeWork(
       break;
     }
     case HostComponent: {
-      popHostContext(workInProgress);
-      const rootContainerInstance = getRootHostContainer();
-      const type = workInProgress.type;
+      popHostContext(workInProgress);//child
+      const rootContainerInstance = getRootHostContainer();//Container
+      const type = workInProgress.type;//'div'
       if (current !== null && workInProgress.stateNode != null) {
         updateHostComponent(
           current,
@@ -416,12 +416,12 @@ function completeWork(
           break;
         }
 
-        const currentHostContext = getHostContext();
+        const currentHostContext = getHostContext();//HTML_NAMESPACE
         // TODO: Move createInstance to beginWork and keep it on a context
         // "stack" as the parent. Then append children as we go in beginWork
         // or completeWork depending on we want to add then top->down or
         // bottom->up. Top->down is faster in IE11.
-        let wasHydrated = popHydrationState(workInProgress);
+        let wasHydrated = popHydrationState(workInProgress);//false
         if (wasHydrated) {
           // TODO: Move this and createInstance step into the beginPhase
           // to consolidate.
@@ -452,11 +452,11 @@ function completeWork(
           // Make sure such renderers get scheduled for later work.
           if (
             finalizeInitialChildren(
-              instance,
-              type,
-              newProps,
-              rootContainerInstance,
-              currentHostContext,
+              instance,//domElement
+              type,    //'div'
+              newProps,//{className:'app',children:’content’},
+              rootContainerInstance,//Container
+              currentHostContext,//HTML_NAMESPACE
             )
           ) {
             markUpdate(workInProgress);
@@ -472,7 +472,7 @@ function completeWork(
       break;
     }
     case HostText: {
-      let newText = newProps;
+      let newText = newProps;//"null"
       if (current && workInProgress.stateNode != null) {
         const oldText = current.memoizedProps;
         // If we have an alternate, that means this is an update and we need
@@ -487,8 +487,8 @@ function completeWork(
           );
           // This can happen when we abort work.
         }
-        const rootContainerInstance = getRootHostContainer();
-        const currentHostContext = getHostContext();
+        const rootContainerInstance = getRootHostContainer();//Container
+        const currentHostContext = getHostContext();//HTML_NAMESPACE
         let wasHydrated = popHydrationState(workInProgress);
         if (wasHydrated) {
           if (prepareToHydrateHostTextInstance(workInProgress)) {

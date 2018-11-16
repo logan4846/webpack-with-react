@@ -264,6 +264,7 @@ function ChildReconciler(shouldTrackSideEffects) {
     returnFiber: Fiber,
     currentFirstChild: Fiber | null,
   ): null {
+      //child,null
     if (!shouldTrackSideEffects) {
       // Noop.
       return null;
@@ -1217,11 +1218,11 @@ function ChildReconciler(shouldTrackSideEffects) {
   // This API will tag the children with the side-effect of the reconciliation
   // itself. They will be added to the side-effect list as we pass through the
   // children and the parent.
-  function reconcileChildFibers(//2,child,null,null,Sync
-    returnFiber: Fiber,
-    currentFirstChild: Fiber | null,//1.null
-    newChild: any,//1.element
-    expirationTime: ExpirationTime,//1.Sync
+  function reconcileChildFibers(//
+    returnFiber: Fiber,             //1.nextUnitOfWork  2.child
+    currentFirstChild: Fiber | null,//1.null            2.null
+    newChild: any,                  //1.element         2.null
+    expirationTime: ExpirationTime, //1.Sync            2.Sync
   ): Fiber | null {
     // This function is not recursive.
     // If the top level item is an array, we treat it as a set of children,
@@ -1271,7 +1272,7 @@ function ChildReconciler(shouldTrackSideEffects) {
         reconcileSingleTextNode(
           returnFiber,//child
           currentFirstChild,//null
-          '' + newChild,//null
+          '' + newChild,//"null"
           expirationTime,//Sync
         ),
       );
@@ -1336,7 +1337,7 @@ function ChildReconciler(shouldTrackSideEffects) {
     }
 
     // Remaining cases are all treated as empty.
-    return deleteRemainingChildren(returnFiber, currentFirstChild);
+    return deleteRemainingChildren(returnFiber, currentFirstChild);//child,null
   }
 
   return reconcileChildFibers;

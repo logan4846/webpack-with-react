@@ -119,11 +119,11 @@ export function setValueForProperty(
   value: mixed,
   isCustomComponentTag: boolean,
 ) {
-  const propertyInfo = getPropertyInfo(name);
-  if (shouldIgnoreAttribute(name, propertyInfo, isCustomComponentTag)) {
+  const propertyInfo = getPropertyInfo(name);//class
+  if (shouldIgnoreAttribute(name, propertyInfo, isCustomComponentTag)) {//返回false
     return;
   }
-  if (shouldRemoveAttribute(name, value, propertyInfo, isCustomComponentTag)) {
+  if (shouldRemoveAttribute(name, value, propertyInfo, isCustomComponentTag)) {//false
     value = null;
   }
   // If the prop isn't in the special list, treat it as a simple attribute.
@@ -138,9 +138,9 @@ export function setValueForProperty(
     }
     return;
   }
-  const {mustUseProperty} = propertyInfo;
+  const {mustUseProperty} = propertyInfo;//false
   if (mustUseProperty) {
-    const {propertyName} = propertyInfo;
+    const {propertyName} = propertyInfo;//
     if (value === null) {
       const {type} = propertyInfo;
       (node: any)[propertyName] = type === BOOLEAN ? false : '';
@@ -156,14 +156,14 @@ export function setValueForProperty(
   if (value === null) {
     node.removeAttribute(attributeName);
   } else {
-    const {type} = propertyInfo;
+    const {type} = propertyInfo;//STRING
     let attributeValue;
     if (type === BOOLEAN || (type === OVERLOADED_BOOLEAN && value === true)) {
       attributeValue = '';
     } else {
       // `setAttribute` with objects becomes only `[object]` in IE8/9,
       // ('' + value) makes it output the correct toString()-value.
-      attributeValue = '' + (value: any);
+      attributeValue = '' + (value: any);//"app"
     }
     if (attributeNamespace) {
       node.setAttributeNS(attributeNamespace, attributeName, attributeValue);

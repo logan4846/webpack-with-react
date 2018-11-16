@@ -384,7 +384,7 @@ function commitAllHostEffects() {
     }
     recordEffect();
 
-    const effectTag = nextEffect.effectTag;
+    const effectTag = nextEffect.effectTag;//Placement Update
 
     if (effectTag & ContentReset) {
       commitResetTextContent(nextEffect);
@@ -401,7 +401,7 @@ function commitAllHostEffects() {
     // updates, and deletions. To avoid needing to add a case for every
     // possible bitmap value, we remove the secondary effects from the
     // effect tag and switch on that value.
-    let primaryEffectTag = effectTag & (Placement | Update | Deletion);
+    let primaryEffectTag = effectTag & (Placement | Update | Deletion);//Placement Update
     switch (primaryEffectTag) {
       case Placement: {
         commitPlacement(nextEffect);
@@ -410,7 +410,7 @@ function commitAllHostEffects() {
         // TODO: findDOMNode doesn't rely on this any more but isMounted
         // does and isMounted is deprecated anyway so we should be able
         // to kill this.
-        nextEffect.effectTag &= ~Placement;
+        nextEffect.effectTag &= ~Placement;//NoEffect
         break;
       }
       case PlacementAndUpdate: {
@@ -426,7 +426,7 @@ function commitAllHostEffects() {
         break;
       }
       case Update: {
-        const current = nextEffect.alternate;
+        const current = nextEffect.alternate;//current
         commitWork(current, nextEffect);
         break;
       }
@@ -449,7 +449,7 @@ function commitBeforeMutationLifecycles() {
       ReactCurrentFiber.setCurrentFiber(nextEffect);
     }
 
-    const effectTag = nextEffect.effectTag;
+    const effectTag = nextEffect.effectTag;//Placement   Update
     if (effectTag & Snapshot) {
       recordEffect();
       const current = nextEffect.alternate;
@@ -497,7 +497,7 @@ function commitAllLifeCycles(
       commitAttachRef(nextEffect);
     }
 
-    const next = nextEffect.nextEffect;
+    const next = nextEffect.nextEffect;//null
     // Ensure that we clean these up so that we don't accidentally keep them.
     // I'm not actually sure this matters because we can't reset firstEffect
     // and lastEffect since they're on every node, not just the effectful
@@ -575,7 +575,7 @@ function commitRoot(root: FiberRoot, finishedWork: Fiber): void {
     // it had one; that is, all the effects in the tree including the root.
     if (finishedWork.lastEffect !== null) {
       finishedWork.lastEffect.nextEffect = finishedWork;
-      firstEffect = finishedWork.firstEffect;
+      firstEffect = finishedWork.firstEffect;// child
     } else {
       firstEffect = finishedWork;
     }
@@ -587,7 +587,7 @@ function commitRoot(root: FiberRoot, finishedWork: Fiber): void {
   prepareForCommit(root.containerInfo);
 
   // Invoke instances of getSnapshotBeforeUpdate before mutation.
-  nextEffect = firstEffect;
+  nextEffect = firstEffect;//child
   startCommitSnapshotEffectsTimer();
   while (nextEffect !== null) {
     let didError = false;
@@ -630,7 +630,7 @@ function commitRoot(root: FiberRoot, finishedWork: Fiber): void {
   // Commit all the side-effects within a tree. We'll do this in two passes.
   // The first pass performs all the host insertions, updates, deletions and
   // ref unmounts.
-  nextEffect = firstEffect;
+  nextEffect = firstEffect;//child
   startCommitHostEffectsTimer();
   while (nextEffect !== null) {
     let didError = false;
@@ -676,7 +676,7 @@ function commitRoot(root: FiberRoot, finishedWork: Fiber): void {
   // Life-cycles happen as a separate pass so that all placements, updates,
   // and deletions in the entire tree have already been invoked.
   // This pass also triggers any renderer-specific initial effects.
-  nextEffect = firstEffect;
+  nextEffect = firstEffect;//child
   startCommitLifeCyclesTimer();
   while (nextEffect !== null) {
     let didError = false;
@@ -695,7 +695,7 @@ function commitRoot(root: FiberRoot, finishedWork: Fiber): void {
       }
     } else {
       try {
-        commitAllLifeCycles(root, committedExpirationTime);
+        commitAllLifeCycles(root, committedExpirationTime);//root,sync
       } catch (e) {
         didError = true;
         error = e;
@@ -723,14 +723,14 @@ function commitRoot(root: FiberRoot, finishedWork: Fiber): void {
     ReactFiberInstrumentation.debugTool.onCommitWork(finishedWork);
   }
 
-  const updateExpirationTimeAfterCommit = finishedWork.expirationTime;
-  const childExpirationTimeAfterCommit = finishedWork.childExpirationTime;
+  const updateExpirationTimeAfterCommit = finishedWork.expirationTime;//NoWork
+  const childExpirationTimeAfterCommit = finishedWork.childExpirationTime;//NoWork
   const earliestRemainingTimeAfterCommit =
     updateExpirationTimeAfterCommit === NoWork ||
     (childExpirationTimeAfterCommit !== NoWork &&
       childExpirationTimeAfterCommit < updateExpirationTimeAfterCommit)
       ? childExpirationTimeAfterCommit
-      : updateExpirationTimeAfterCommit;
+      : updateExpirationTimeAfterCommit;//NoWork
   if (earliestRemainingTimeAfterCommit === NoWork) {
     // If there's no remaining work, we can clear the set of already failed
     // error boundaries.
@@ -855,7 +855,7 @@ function resetChildExpirationTime(
     workInProgress.actualDuration = actualDuration;
     workInProgress.treeBaseDuration = treeBaseDuration;
   } else {
-    let child = workInProgress.child;
+    let child = workInProgress.child;//child
     while (child !== null) {
       const childUpdateExpirationTime = child.expirationTime;
       const childChildExpirationTime = child.childExpirationTime;
@@ -889,13 +889,13 @@ function completeUnitOfWork(workInProgress: Fiber): Fiber | null {
     // Ideally nothing should rely on this, but relying on it here
     // means that we don't need an additional field on the work in
     // progress.
-    const current = workInProgress.alternate;
+    const current = workInProgress.alternate;//null
     if (__DEV__) {
       ReactCurrentFiber.setCurrentFiber(workInProgress);
     }
 
-    const returnFiber = workInProgress.return;
-    const siblingFiber = workInProgress.sibling;
+    const returnFiber = workInProgress.return;//nextUnitOfWork
+    const siblingFiber = workInProgress.sibling;//null
 
     if ((workInProgress.effectTag & Incomplete) === NoEffect) {
       // This fiber completed.
@@ -916,10 +916,10 @@ function completeUnitOfWork(workInProgress: Fiber): Fiber | null {
         }
       } else {
         nextUnitOfWork = completeWork(
-          current,
-          workInProgress,
-          nextRenderExpirationTime,
-        );
+          current,                 //1.null  2.current
+          workInProgress,          //1.child 2.nextUnitOfWork
+          nextRenderExpirationTime,//1.Sync  2.Sync
+        );//返回                      1.null
       }
       stopWorkTimer(workInProgress);
       resetChildExpirationTime(workInProgress, nextRenderExpirationTime);
@@ -951,7 +951,7 @@ function completeUnitOfWork(workInProgress: Fiber): Fiber | null {
         // to schedule our own side-effect on our own list because if end up
         // reusing children we'll schedule this effect onto itself since we're
         // at the end.
-        const effectTag = workInProgress.effectTag;
+        const effectTag = workInProgress.effectTag;//Placement
         // Skip both NoWork and PerformedWork tags when creating the effect list.
         // PerformedWork effect is read by React DevTools but shouldn't be committed.
         if (effectTag > PerformedWork) {
@@ -1062,7 +1062,7 @@ function performUnitOfWork(workInProgress: Fiber): Fiber | null {
   // Ideally nothing should rely on this, but relying on it here
   // means that we don't need an additional field on the work in
   // progress.
-  const current = workInProgress.alternate;//null
+  const current = workInProgress.alternate;//1.current 2.null 3.null
 
   // See if beginning this work spawns more work.
   startWorkTimer(workInProgress);
@@ -1090,7 +1090,7 @@ function performUnitOfWork(workInProgress: Fiber): Fiber | null {
       stopProfilerTimerIfRunningAndRecordDelta(workInProgress, true);
     }
   } else {//3,null,work,Sync
-    next = beginWork(current, workInProgress, nextRenderExpirationTime); //nextUnitOfWork.child
+    next = beginWork(current, workInProgress, nextRenderExpirationTime); //1.current,nextUnitOfWork,Sync  2.null,child,Sync
   }
 
   if (__DEV__) {
@@ -1619,7 +1619,7 @@ function scheduleWorkToRoot(fiber: Fiber, expirationTime): FiberRoot | null {
   ) {
     fiber.expirationTime = expirationTime;
   }
-  let alternate = fiber.alternate;//null
+    let alternate = fiber.alternate;//null
   if (
     alternate !== null &&
     (alternate.expirationTime === NoWork ||
@@ -1628,10 +1628,10 @@ function scheduleWorkToRoot(fiber: Fiber, expirationTime): FiberRoot | null {
     alternate.expirationTime = expirationTime;
   }
   // Walk the parent path to the root and update the child expiration time.
-  let node = fiber.return;//root
+  let node = fiber.return;//null
   let root = null;
   if (node === null && fiber.tag === HostRoot) {
-    root = fiber.stateNode;//null
+    root = fiber.stateNode;//root._internalRoot
   } else {
     while (node !== null) {
       alternate = node.alternate;
@@ -1711,12 +1711,12 @@ function scheduleWorkToRoot(fiber: Fiber, expirationTime): FiberRoot | null {
 
 function scheduleWork(fiber: Fiber, expirationTime: ExpirationTime) {
   const root = scheduleWorkToRoot(fiber, expirationTime);//root
-  if (root === null) {
-    return;
-  }
+  if (root === null)
+    !isWorking &&{
+          return;
+}
 
-  if (
-    !isWorking &&
+    if (
     nextRenderExpirationTime !== NoWork &&
     expirationTime < nextRenderExpirationTime
   ) {
@@ -2016,7 +2016,7 @@ function findHighestPriorityRoot() {
     let previousScheduledRoot = lastScheduledRoot;//root
     let root = firstScheduledRoot;//root
     while (root !== null) {
-      const remainingExpirationTime = root.expirationTime;//Sync
+      const remainingExpirationTime = root.expirationTime;//NoWork
       if (remainingExpirationTime === NoWork) {
         // This root no longer has work. Remove it from the scheduler.
 
@@ -2073,8 +2073,8 @@ function findHighestPriorityRoot() {
     }
   }
 
-  nextFlushedRoot = highestPriorityRoot;//root
-  nextFlushedExpirationTime = highestPriorityWork;//Sync
+  nextFlushedRoot = highestPriorityRoot;//null
+  nextFlushedExpirationTime = highestPriorityWork;//NoWork
 }
 
 function performAsyncWork(dl) {
@@ -2111,7 +2111,6 @@ function performWork(minExpirationTime: ExpirationTime, dl: Deadline | null) {
   if (deadline !== null) {
     recomputeCurrentRendererTime();
     currentSchedulerTime = currentRendererTime;
-
     if (enableUserTimingAPI) {
       const didExpire = nextFlushedExpirationTime < currentRendererTime;
       const timeout = expirationTimeToMs(nextFlushedExpirationTime);
@@ -2249,7 +2248,7 @@ function performWorkOnRoot(
       }
       const isYieldy = false;
       renderRoot(root, isYieldy, isExpired);//root,false,true
-      finishedWork = root.finishedWork;//
+      finishedWork = root.finishedWork;//nextUnitOfWork
       if (finishedWork !== null) {
         // We've completed the root. Commit it.
         completeRoot(root, finishedWork, expirationTime);
