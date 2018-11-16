@@ -43,7 +43,6 @@ Object.defineProperty(obj,"test",{
         enumerable: true | false
     });
 ```
-   e  {props} = element
    fiber遍历 ，如果有兄弟节点则返回兄弟节点作为下个wookloop的任务点，无兄弟节点就继续遍历父节点
    firstEffect 记录子节点无更改
    doc.activeElement
