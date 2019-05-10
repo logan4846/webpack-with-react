@@ -46,6 +46,39 @@ class Login extends Component {
         console.log(this.props);
         console.log(this.props.match.params);
         this.counter();
+        console.warn("this is a test");
+        this.testPromise();
+        this.testGenerator();
+    }
+
+    testPromise(){
+        function mockPromise() {
+            return new Promise(function (resolve, reject) {
+                let a = Math.random() * 10;
+                if (a > 5) resolve(a);
+                else reject(a)
+            })
+        };
+        mockPromise()
+            .then((res) => {
+                console.log(`这是成功的输出，a：${res}`);
+                return mockPromise();
+            }, res => {
+                console.log(`这是失败的输出：a：${res}`);
+                return mockPromise();
+            })
+            .then((res) => {
+                console.log(`这是成功的输出，a：${res}`);
+                return 1;
+            }, res => {
+                console.log(`这是失败的输出：a：${res}`);
+                return 2;
+            })
+            .then((res) => console.log(`resolve:${res}`),res => console.log(`reject:${res}`));
+    }
+
+    testGenerator(){
+
     }
 
     componentWillUnmount() {
@@ -100,7 +133,7 @@ const mapDispatchToProps = actions;
  3.connect(null,mapDispatchToProps)(Component)  可以通过this.props.createPart1Action自动触发action，但是获取不到state,state改变也不会更新
  4.connect(mapStateToProps,mapDispatchToProps)(Component) 可以通过this.props.createPart1Action自动触发action，当state.Login改变时更新
 */
-export default connect(mapStateToProps,mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 //中间件middleware相当于对dispatch的再次包装，使用applyMiddleware来处理多个中间件
 //applyMiddleware
 // 源码
