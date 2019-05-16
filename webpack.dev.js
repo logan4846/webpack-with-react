@@ -24,7 +24,16 @@ let config = {
                     loader: 'babel-loader',
                     options: {
                         presets: ["@babel/preset-react", "@babel/preset-env"],
-                        plugins: ["react-hot-loader/babel","@babel/plugin-syntax-dynamic-import"]
+                        plugins: [
+                            ["@babel/plugin-transform-runtime", {
+                                "absoluteRuntime": false,
+                                "corejs": false,
+                                "helpers": true,
+                                "regenerator": true,
+                                "useESModules": false
+                            }],
+                            "react-hot-loader/babel",
+                            "@babel/plugin-syntax-dynamic-import"]
                     }
                 }
             },
@@ -55,13 +64,13 @@ let config = {
         ]
     },
     devtool: "source-map",
-    devServer:{
+    devServer: {
         hot: true,
         compress: true,
         host: 'localhost',
         stats: 'errors-only'
     },
-    plugins:[
+    plugins: [
         // react-hot-loader下 react-hot-loader/index.js
         // development环境state改变不更新，但会保留当前的state
         // production环境state改变更新，但不会保留state

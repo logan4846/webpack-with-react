@@ -5,7 +5,7 @@ class ComponentTest extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            content:'this is a component test'
+            content:'this is a component test1'
         }
     }
 

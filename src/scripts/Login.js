@@ -13,7 +13,8 @@ class Login extends Component {
         super(props);
         this.state = {
             name: 'LIVEEVIL',
-            num: 1
+            num: 1,
+            count:0
         }
         this.myRef = React.createRef();
     }
@@ -43,29 +44,42 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props);
-        console.log(this.props.match.params);
         this.counter();
-        console.warn("this is a test");
-        this.testPromise();
-        this.testGenerator();
+        console.warn("--------------------------");
+        // this.testPromise();
+        // this.testGenerator();
+        // this.testAsync();
     }
-
+    mockPromise() {
+        return new Promise(function (resolve, reject) {
+           setTimeout(() => {
+               let a = Math.random() * 10;
+               if (a > 5) {
+                   resolve(a);
+               }
+               else reject(a)
+           },500);
+        })
+    };
+    testAsync(){
+        let mockPromise = this.mockPromise;
+        async function mockGenerator(){
+            let r1 = await mockPromise().catch(err => console.log(err));
+            console.log(`这是第一次await结果：${r1}`);
+            let r2 = await mockPromise().catch(err => console.log(err));
+            console.log(`这是第二次await结果：${r2}`);
+            return "end";
+        }
+        this.ge = mockGenerator();
+    }
     testPromise(){
-        function mockPromise() {
-            return new Promise(function (resolve, reject) {
-                let a = Math.random() * 10;
-                if (a > 5) resolve(a);
-                else reject(a)
-            })
-        };
-        mockPromise()
+        this.mockPromise()
             .then((res) => {
                 console.log(`这是成功的输出，a：${res}`);
-                return mockPromise();
+                return this.mockPromise();
             }, res => {
                 console.log(`这是失败的输出：a：${res}`);
-                return mockPromise();
+                return this.mockPromise();
             })
             .then((res) => {
                 console.log(`这是成功的输出，a：${res}`);
@@ -78,7 +92,35 @@ class Login extends Component {
     }
 
     testGenerator(){
+        let mockPromise = this.mockPromise;
+        function*mockGenerator(){
+            console.log("开始执行");
+            try {
+                yield mockPromise();
+                yield mockPromise();
+                yield 3;
+            } catch (e) {
+                console.log('内部捕获', e);
+            }
+            return "end";
+        }
+        this.ge = mockGenerator();
 
+    }
+
+    doNext(){
+        let temp = this.ge.next(11111);
+        console.log(`currentValue:${temp}`);
+    }
+
+    normalTest(){
+        this.state.name = 1;
+        this.setState((state, props) => ({
+            count: state.count + 1
+        }));
+        this.setState((state, props) => ({
+            count: state.count + 1
+        }));
     }
 
     componentWillUnmount() {
@@ -88,6 +130,8 @@ class Login extends Component {
     render() {
         return (
             <div className="Login">
+                <button onClick={() => this.doNext()}>Generator执行next</button>
+                <button onClick={() => this.normalTest()}>测试{this.state.name}-{this.state.count}</button>
                 <div onClick={() => this.props.createChangeContent("Change State redux")}>{this.props.title}</div>
                 <div onClick={() => console.log(this.props)}>打印props</div>
                 <div onClick={() => this.props.httpGet()}>(redux中间件)发送http</div>
