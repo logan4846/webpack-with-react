@@ -12,7 +12,7 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: 'LIVEEVIL',
+            name: 'LIVEEVIL1',
             num: 1,
             count:0
         }
