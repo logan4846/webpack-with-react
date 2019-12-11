@@ -50,27 +50,45 @@ class Login extends Component {
         // this.testGenerator();
         // this.testAsync();
         //给一个对象提供for of消费
-        Object.prototype[Symbol.iterator] = function(){
-            let keys = Object.keys(this);
-            let length = keys.length;
-            let currentIndex = 0;
-            return {
-                next: () =>{
-                    let ob = {
-                        value: currentIndex <= length - 1 ? this[keys[currentIndex]] : "nomore",
-                        done: currentIndex > length -1
-                    };
-                    currentIndex++;
-                    return ob;
-                }
-            };
+        // Object.prototype[Symbol.iterator] = function(){
+        //     let keys = Object.keys(this);
+        //     let length = keys.length;
+        //     let currentIndex = 0;
+        //     return {
+        //         next: () =>{
+        //             let ob = {
+        //                 value: currentIndex <= length - 1 ? this[keys[currentIndex]] : "nomore",
+        //                 done: currentIndex > length -1
+        //             };
+        //             currentIndex++;
+        //             return ob;
+        //         }
+        //     };
+        // }
+        // let testOb = {name:"ahaa",age:23,address:"中国重庆"};
+        //
+        // for(let i of testOb){
+        //     console.log(i);
+        // }
+        // console.log("End");
+        console.warn("--------------------------");
+        function  testToString(){
+            if(this === null) return "Null";
+            if(this === undefined) return "Undefined";
+            if(typeof this  === 'object') return "Object";
+            if(typeof this  === 'function') return "Function";
+            if(typeof this === 'string') return "String";
+            if(typeof this === 'number') return "Number";
+            if(typeof this === 'boolean') return "Boolean";
         }
-        let testOb = {name:"ahaa",age:23,address:"中国重庆"};
+        var a=1,b=false,c=undefined,d=null,e="",f=function () {};
+        console.log(testToString.call(a),Object.prototype.toString.call(a));
+        console.log(testToString.call(b),Object.prototype.toString.call(b));
+        console.log(testToString.call(c),Object.prototype.toString.call(c));
+        console.log(testToString.call(d),Object.prototype.toString.call(d));
+        console.log(testToString.call(e),Object.prototype.toString.call(e));
+        console.log(testToString.call(f),Object.prototype.toString.call(f));
 
-        for(let i of testOb){
-            console.log(i);
-        }
-        console.log("End");
     }
     mockPromise() {
         return new Promise(function (resolve, reject) {
@@ -118,8 +136,9 @@ class Login extends Component {
         function*mockGenerator(){
             console.log("开始执行");
             try {
-                yield mockPromise();
-                yield mockPromise();
+                let a = yield mockPromise();
+                let b = yield mockPromise();
+                console.log("!!!!!",a,b);
                 yield 3;
             } catch (e) {
                 console.log('内部捕获', e);
@@ -132,7 +151,7 @@ class Login extends Component {
 
     doNext(){
         let temp = this.ge.next(11111);
-        console.log(`currentValue:${temp}`);
+        console.log(`currentValue:${JSON.stringify(temp)}`);
     }
 
     normalTest(){
@@ -175,11 +194,11 @@ class Login extends Component {
         for(let i = 0;i < arr.length;i++){
             let minIndex = i;
             for(let j = i+1;j< arr.length;j++){
-                if(arr[j] < arr[i]){
+                if(arr[j] < arr[minIndex]){
                     minIndex = j;
                 }
             }
-            console.log(`当前最小数：`,minIndex);
+            console.log(`当前 最小数：`,minIndex);
             let temp = arr[minIndex];
             arr[minIndex] = arr[i];
             arr[i] = temp;
