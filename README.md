@@ -24,9 +24,9 @@
 ------------
 
 #### redux
-- [流程图，点击查看](http://pd0zb8hw9.bkt.clouddn.com/redux.png "同步流程图查看")
+- [流程图，点击查看](http://static.logan4846.com/images/github/redux.png "同步流程图查看")
 
-- [有中间件流程图，点击查看](http://pd0zb8hw9.bkt.clouddn.com/redux_middleware.png "有中间件流程图，点击查看")
+- [有中间件流程图，点击查看](http://static.logan4846.com/images/github/redux_m.png "有中间件流程图，点击查看")
 
 - [applyMiddleware源码](https://github.com/RongMine/webpack-with-react/blob/master/src/scripts/Login.js "applyMiddleware源码") **位于文件底部**
 
