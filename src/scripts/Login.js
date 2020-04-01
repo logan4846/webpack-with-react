@@ -363,6 +363,10 @@ class Login extends Component {
     render() {
         return (
             <div className="Login">
+                <div className="testFlex">
+                    <div className="left"></div>
+                    <div className="right"></div>
+                </div>
                 <button onClick={() => this.doNext()}>Generator执行next</button>
                 <br/>
                 <button onClick={() => this.bubbleSort([2,1,6,5,8,3,7,9,4])}>冒泡</button>

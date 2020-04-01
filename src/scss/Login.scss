@@ -12,4 +12,22 @@
     left:0;
     top:0;
   }
+
+  .testFlex{
+    display: flex;
+    padding: 0 60px;
+    background-color: #e2e2e8;
+    div{
+      flex:1;
+      height:200px;
+      &.left{
+        border:2px solid red;
+        box-sizing: border-box;
+        //margin-right: 34px;
+      }
+      &.right{
+        background-color: blue;
+      }
+    }
+  }
 }
