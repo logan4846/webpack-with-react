@@ -1,0 +1,29 @@
+.Home{
+  .bfc1{
+    overflow: hidden;
+    div{
+      margin: 20px auto;
+      height: 40px;
+      background-color: red;
+    }
+  }
+  .bfc2{
+    overflow: hidden;
+    div{
+      text-align: left;
+      &:first-child{
+        width:100px;
+        height:50px;
+        background-color: #e2e2e8;
+        float:left;
+      }
+    }
+  }
+}
+
+.gridDemo{
+  display: grid;
+  width:100%;
+  height:200px;
+  background-color: #e2e2e8;
+}
