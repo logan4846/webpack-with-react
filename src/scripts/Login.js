@@ -7,6 +7,9 @@ import RenderProps from '../components/RenderProps';
 
 import {connect} from "react-redux";
 import * as actions from "../redux_config/actions";
+//
+// import TestContext1  from '../components/TestContext1'
+// import UserContext from '../components/UserContext';
 
 class Login extends Component {
     constructor(props) {
@@ -367,6 +370,9 @@ class Login extends Component {
                     <div className="left"></div>
                     <div className="right"></div>
                 </div>
+                {/*<UserContext.Provider>
+                    <TestContext1/>
+                </UserContext.Provider>*/}
                 <button onClick={() => this.doNext()}>Generator执行next</button>
                 <br/>
                 <button onClick={() => this.bubbleSort([2,1,6,5,8,3,7,9,4])}>冒泡</button>
